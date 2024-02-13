@@ -1,0 +1,33 @@
+{
+  "customerID": "c123",
+  "policyNumber": "p123",
+  "claimID": "cl123",
+  "claimStatusCode": "Active",
+  "claimDescription": "Single vehicle accident involving Car ...",
+  "totalLossAmount": 1250,
+  "claimFNOLDate": "2021-07-29",
+  "claimClosedDate": "2021-08-25",
+  "claimLineCode": "Auto",
+  "damageDescription": "Driver broke side-view mirror off by hitting a brick wall",
+  "insurableObject": {
+    "insurableObjectId": "abc123",
+    "vehicleMake": null,
+    "vehicleModel": null
+  },
+  "coverages": [
+    {
+      "coverageCode": "999",
+      "description": "accidental driver-responsible damage"
+    }
+  ]
+}
+
+
+Sample coverage codes:
+999 - accidental driver-responsible damage
+888 - 3rd party responsible
+777 - Vehicle rental/loaner service for customer
+666 - Glass windshield repair
+555 - Autobody and paint repair
+
+claimStatusCode: [Active, Closed, Subrogation]
