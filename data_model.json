@@ -11,8 +11,8 @@
   "damageDescription": "Driver broke side-view mirror off by hitting a brick wall",
   "insurableObject": {
     "insurableObjectId": "abc123",
-    "vehicleMake": null,
-    "vehicleModel": null
+    "vehicleMake": "Tesla",
+    "vehicleModel": "Model 3"
   },
   "coverages": [
     {
