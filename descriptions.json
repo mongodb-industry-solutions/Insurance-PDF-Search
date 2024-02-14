@@ -1,9 +1,5 @@
-import itertools
-import random
-from datetime import datetime, timedelta
-from pymongo import MongoClient
 
-claimDescriptionList = [
+claim_descriptions = [
     "During a heavy thunderstorm, a vehicle lost traction and slid into a guardrail on the highway, causing a multi-car pileup.",
     "A distracted driver failed to notice stopped traffic ahead, resulting in a high-speed rear-end collision.",
     "A vehicle attempted to avoid a suddenly crossing deer, veering off the road and colliding with a tree.",
@@ -26,7 +22,7 @@ claimDescriptionList = [
     "A vehicle parked illegally was struck by a bus trying to navigate through a narrow street."
 ]
 
-damageDescriptionList = [
+damage_descriptions = [
     "Guardrail impact caused significant front-end damage, leading to a chain reaction of collisions with multiple vehicles involved.",
     "Rear bumper crushed, trunk caved in, and rear windshield shattered from the high-speed impact.",
     "Significant side and front-end damage from hitting the tree, with the vehicle's airbags deployed.",
@@ -49,61 +45,3 @@ damageDescriptionList = [
     "Side panel and wheel of the illegally parked car damaged, with minor damage to the bus."
 ]
 
-
-# MongoDB Atlas connection string
-mongo_conn_str = "mongodb+srv://luca:abba@ist-shared.n0kts.mongodb.net/?retryWrites=true&w=majority"
-client = MongoClient(mongo_conn_str)
-try:
-    client.admin.command('ping')
-    print("Pinged your deployment. You successfully connected to MongoDB!")
-except Exception as e:
-    print(e)
-db = client.demo_rag_insurance
-collection = db.claims_final
-
-def generate_document(customer_id, policy_number, claim_id, claim_status_code, 
-                      claim_description, damage_description, coverages_list):
-    document = {
-        "customerID": customer_id,
-        "policyNumber": policy_number,
-        "claimID": claim_id,
-        "claimStatusCode": claim_status_code,
-        "claimDescription": claim_description,
-        "totalLossAmount": random.randint(1, 5000),
-        "claimFNOLDate": (datetime.now() - timedelta(days=random.randint(1, 365))).strftime('%Y-%m-%d'),
-        "claimClosedDate": (datetime.now() + timedelta(days=random.randint(1, 365))).strftime('%Y-%m-%d'),
-        "claimLineCode": "Auto",
-        "damageDescription": damage_description,
-        "insurableObject": {
-            "insurableObjectId": "abc" + customer_id[1:],
-            "vehicleMake": "Make" + customer_id[1:],
-            "vehicleModel": "Model" + claim_id[2:]
-        },
-        "coverages": [{"coverageCode": "888", "description": "3rd party responsible"}] + 
-                     [random.choice(coverages_list)]
-    }
-    return document
-
-claim_status_codes = ["Active", "Closed", "Subrogation"]
-additional_coverage_options = [
-    {"coverageCode": "999", "description": "accidental driver-responsible damage"},
-    {"coverageCode": "777", "description": "Vehicle rental/loaner service for customer"},
-    {"coverageCode": "666", "description": "Glass windshield repair"},
-    {"coverageCode": "555", "description": "Autobody and paint repair"}
-]
-
-# Create iterators for claim descriptions, damage descriptions, and claim status codes
-claim_description_iter = itertools.cycle(claimDescriptionList)
-damage_description_iter = itertools.cycle(damageDescriptionList)
-claim_status_code_iter = itertools.cycle(claim_status_codes)
-
-documents = []
-for i in range(20):
-    documents.append(generate_document(f"c{i+100}", f"p{i+100}", f"cl{i+100}", 
-                                        next(claim_status_code_iter), 
-                                        next(claim_description_iter), 
-                                        next(damage_description_iter), 
-                                        additional_coverage_options))
-
-collection.insert_many(documents)
-print("Documents successfully written to MongoDB Atlas.")

@@ -31,3 +31,6 @@ Sample coverage codes:
 555 - Autobody and paint repair
 
 claimStatusCode: [Active, Closed, Subrogation]
+
+Given this data model, create 50 documents with that schema. customerID, policyNumber, claimID, and insurableObjectId should be unique. 
+claimdescription should be unique for each document and be 6 or 7 lines long. the coverage code should be one or more of those provided by me
