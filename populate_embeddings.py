@@ -7,17 +7,17 @@ import os
 #import openai
 load_dotenv()
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
+mongo_uri = os.getenv("MONGO_URI")
 
-uri = "mongodb+srv://luca:abba@ist-shared.n0kts.mongodb.net/?retryWrites=true&w=majority"
-client = MongoClient(uri, server_api=ServerApi('1'))
+client = MongoClient(mongo_uri, server_api=ServerApi('1'))
 # Send a ping to confirm a successful connection
-""" try:
+try:
     client.admin.command('ping')
     print("Pinged your deployment. You successfully connected to MongoDB!")
 except Exception as e:
-    print(e) """
+    print(e)
 
-db = client['demo_rag_insurance']
+""" db = client['demo_rag_insurance']
 collection = db['claims_final']
 
 embeddings = OpenAIEmbeddings(model="text-embedding-3-large", dimensions=2048)
@@ -35,4 +35,4 @@ for document in collection.find():
 
     print("Document " + str(document["_id"]) + " updated.")
 
-print("Embeddings created.")
+print("Embeddings created.") """
