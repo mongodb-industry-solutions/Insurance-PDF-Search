@@ -30,8 +30,10 @@ embeddings = OpenAIEmbeddings(model="text-embedding-3-small", dimensions=350)
 vector_search = MongoDBAtlasVectorSearch.from_connection_string(
     CONNECTION_STRING,
     DB_NAME + "." + COLLECTION_NAME,
-    embedding=embeddings,
+    embeddings,
     index_name=INDEX_NAME,
+    text_key="claimDescription",
+    embedding_key="claimDescriptionEmbedding"
 )
 
 qa_retriever = vector_search.as_retriever(
@@ -51,14 +53,25 @@ PROMPT = PromptTemplate(
 
 
 qa = RetrievalQA.from_chain_type(
-    llm=OpenAI(model="text-davinci-003"),
+    llm=OpenAI(),
     chain_type="stuff",
     retriever=qa_retriever,
     return_source_documents=True,
     chain_type_kwargs={"prompt": PROMPT},
 )
 
-docs = qa({"query": "gpt-4 compute requirements"})
+docs = qa({"query": "I got a flat tire, summarize similar accidents and telle me the id of their documents", "context": "I had an accident because of a flat tire."})
 
 print(docs["result"])
-print(docs["source_documents"])
+print(docs)
+print(docs['metadata'])
+print(docs['metadata'][0])
+
+
+""" for x in docs["source_documents"]:
+  print(x['claimDescription']) """
+
+""" for doc in docs:
+    totalLossAmount = doc.get('totalLossAmount')
+    print(totalLossAmount)
+ """
