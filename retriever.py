@@ -60,9 +60,26 @@ qa = RetrievalQA.from_chain_type(
     chain_type_kwargs={"prompt": PROMPT},
 )
 
-docs = qa({"query": "I got a flat tire, summarize similar accidents and telle me the id of their documents", "context": "I had an accident because of a flat tire."})
+#interaction = {"query": "I got a flat tire, can you find claims with similar characteristics and tell me the average loss amount?", "context": "I had an accident because of a flat tire."}
+interaction = {"query": "I got a flat tire, summarize similar accidents and tell me the average loss amount as specified in the documents provided", "context": "I had an accident because of a flat tire."}
+#interaction = {"query": "Show me the expected repair time for this claim based on similar claims", "context": "I had an accident because of a flat tire."}
+#interaction = {"query": "I got a flat tire, summarize similar accidents", "context": "I had an accident because of a flat tire."}
+
+docs = qa(interaction)
 
 #page_content = docs["source_documents"][0].metadata['totalLossAmount']
-page_content = docs["source_documents"][0].metadata['insurableObject']['insurableObjectId']
+#page_content = docs["source_documents"][0].metadata['insurableObject']['insurableObjectId']
 
-print(page_content)
+#print(docs['result'])
+
+loss_amounts = []
+
+# Iterate over each document in the list of source documents
+for doc in docs["source_documents"]:
+    # Extract the totalLossAmount from each document's metadata
+    loss_amount = doc.metadata['totalLossAmount']
+    # Append the extracted amount to the list of loss amounts
+    loss_amounts.append(loss_amount)
+
+# Now, loss_amounts contains all the totalLossAmount values from the documents
+print(docs)

@@ -11,9 +11,11 @@ from langchain.chains import RetrievalQA
 from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
+import openai
 
 load_dotenv()
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
+openai.api_key = os.getenv("OPENAI_API_KEY")
 mongo_uri = os.getenv("MONGO_URI")
 
 CONNECTION_STRING = str(mongo_uri)
@@ -29,6 +31,18 @@ collection = MongoClient[DB_NAME][COLLECTION_NAME]
 embeddings = OpenAIEmbeddings(model="text-embedding-3-small", dimensions=350, disallowed_special=())
 #embeddings = OpenAIEmbeddings(model="text-embedding-ada-002-v2", dimensions=350)
 
+def ask_openai(question, data):
+    response = openai.completions.create(model="gpt-3.5-turbo-instruct",  # Choose an appropriate engine for your needs
+    prompt=f"{question}\n\nAdditional Information:\n{data}",
+    temperature=0.7,
+    max_tokens=2000,
+    top_p=1.0,
+    frequency_penalty=0.0,
+    presence_penalty=0.0)
+    # Return the text portion of the response
+    return response.choices[0].text.strip()
+
+
 vector_search = MongoDBAtlasVectorSearch.from_connection_string(
     CONNECTION_STRING,
     DB_NAME + "." + COLLECTION_NAME,
@@ -38,11 +52,21 @@ vector_search = MongoDBAtlasVectorSearch.from_connection_string(
     embedding_key="claimDescriptionEmbedding"
 )
 
-query = "I had an accident because of a flat tire."
+context = "I had an accident because of a flat tire. Calculate the average loss amount"
+question = "Calculate the average loss amount for the accidents and summarize similar accidents."
 
 results = vector_search.similarity_search(
-    query=query, k=5)
+    query=context, k=3)
 
-# Display results
-for result in results:
-    print(result)
+#Strips embedding from the results to avoid sending it to OpenAI for performance reasons
+for doc in results:
+    del doc.metadata['damageDescriptionEmbedding']
+
+response = ask_openai(question, results)
+
+print(response)
+
+
+
+
+
