@@ -22,8 +22,6 @@ CONNECTION_STRING = str(mongo_uri)
 DB_NAME = "demo_rag_insurance"
 COLLECTION_NAME = "claims_final"
 INDEX_NAME = "vector_index_claim_description"
-#INDEX_NAME = "default"
-
 
 MongoClient = MongoClient(CONNECTION_STRING)
 collection = MongoClient[DB_NAME][COLLECTION_NAME]
@@ -52,8 +50,10 @@ vector_search = MongoDBAtlasVectorSearch.from_connection_string(
     embedding_key="claimDescriptionEmbedding"
 )
 
-context = "I had an accident because of a flat tire. Calculate the average loss amount"
-question = "Calculate the average loss amount for the accidents and summarize similar accidents."
+context = "I had an accident because of a flat tire. To calculate repair time use claimFNOLdate as start date and claimCloseDate as end date."
+#question = "Calculate the average loss amount for the accidents and summarize similar accidents."
+#question = "Tell me the average repair time for this claim based on similar claims."
+question = "Tell me the if the customer has a coverages for these kind of accidents."
 
 results = vector_search.similarity_search(
     query=context, k=3)
@@ -65,6 +65,7 @@ for doc in results:
 response = ask_openai(question, results)
 
 print(response)
+
 
 
 
