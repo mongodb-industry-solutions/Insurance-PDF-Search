@@ -62,16 +62,7 @@ qa = RetrievalQA.from_chain_type(
 
 docs = qa({"query": "I got a flat tire, summarize similar accidents and telle me the id of their documents", "context": "I had an accident because of a flat tire."})
 
-print(docs["result"])
-print(docs)
-print(docs['metadata'])
-print(docs['metadata'][0])
+#page_content = docs["source_documents"][0].metadata['totalLossAmount']
+page_content = docs["source_documents"][0].metadata['insurableObject']['insurableObjectId']
 
-
-""" for x in docs["source_documents"]:
-  print(x['claimDescription']) """
-
-""" for doc in docs:
-    totalLossAmount = doc.get('totalLossAmount')
-    print(totalLossAmount)
- """
+print(page_content)
