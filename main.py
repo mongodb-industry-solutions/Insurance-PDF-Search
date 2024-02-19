@@ -8,16 +8,17 @@ import openai
 load_dotenv()
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 openai.api_key = os.getenv("OPENAI_API_KEY")
-mongo_uri = os.getenv("MONGO_URI")
 
+#MDB
+mongo_uri = os.getenv("MONGO_URI")
 CONNECTION_STRING = str(mongo_uri)
 DB_NAME = "demo_rag_insurance"
 COLLECTION_NAME = "claims_final"
 INDEX_NAME = "vector_index_claim_description"
-
 MongoClient = MongoClient(CONNECTION_STRING)
 collection = MongoClient[DB_NAME][COLLECTION_NAME]
 
+#Embedding model
 embeddings = OpenAIEmbeddings(model="text-embedding-3-small", dimensions=350, disallowed_special=())
 #embeddings = OpenAIEmbeddings(model="text-embedding-ada-002-v2", dimensions=350)
 
@@ -45,17 +46,27 @@ def vector_search(mdb_uri, db_name, collection_name, index_name, embeddings, tex
 
     return search.similarity_search(context, k)
 
+
+
+
+
+
 #Possible prompts and contexts
-context = "I had an accident because of a flat tire. To calculate repair time use claimFNOLdate as start date and claimCloseDate as end date."
+#context = "To calculate repair time use claimFNOLdate as start date and claimCloseDate as end date."
+context = "I had an accident because of a flat tire. Tell me the average repair time for this claim based on similar claims. To calculate repair time use claimFNOLdate as start date and claimCloseDate as end date."
+#context = "I had an accident because of a flat tire."
+
 #question = "Calculate the average loss amount for the accidents and summarize similar accidents."
-#question = "Tell me the average repair time for this claim based on similar claims."
-question = "Tell me the if the customer has a coverages for these kind of accidents."
+question = "Find accidents caused by adverse weather. Tell me the average repair time for this claim based on similar claims. To calculate repair time use claimFNOLdate as start date and claimCloseDate as end date. tell me about the accidents"
 
 #Search for similar claims based on the context
-result = vector_search(mongo_uri, DB_NAME, COLLECTION_NAME, INDEX_NAME, embeddings, "claimDescription", "claimDescriptionEmbedding", context, 3)
+#For a better search we could use context instead of question 
+result = vector_search(mongo_uri, DB_NAME, COLLECTION_NAME, INDEX_NAME, embeddings, "claimDescription", "claimDescriptionEmbedding", question, 3)
 #Strips embedding from the results to avoid sending it to OpenAI for performance reasons
 for doc in result:
+    #print(doc.page_content)
     del doc.metadata['damageDescriptionEmbedding']
+    
 
 #Interrogate the llm
 response = ask_openai(question, result)

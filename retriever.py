@@ -70,16 +70,4 @@ docs = qa(interaction)
 #page_content = docs["source_documents"][0].metadata['totalLossAmount']
 #page_content = docs["source_documents"][0].metadata['insurableObject']['insurableObjectId']
 
-#print(docs['result'])
-
-loss_amounts = []
-
-# Iterate over each document in the list of source documents
-for doc in docs["source_documents"]:
-    # Extract the totalLossAmount from each document's metadata
-    loss_amount = doc.metadata['totalLossAmount']
-    # Append the extracted amount to the list of loss amounts
-    loss_amounts.append(loss_amount)
-
-# Now, loss_amounts contains all the totalLossAmount values from the documents
-print(docs)
+print(docs['result'])
