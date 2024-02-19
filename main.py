@@ -1,13 +1,5 @@
-from langchain.chains import LLMChain
-from langchain.prompts import PromptTemplate
-from langchain_openai import OpenAI
-from langchain.schema import Document
 from langchain_community.vectorstores.mongodb_atlas import MongoDBAtlasVectorSearch
 from langchain_openai import OpenAIEmbeddings
-from langchain.chains.query_constructor.base import AttributeInfo
-from langchain.retrievers.self_query.base import SelfQueryRetriever
-from langchain_openai import OpenAI
-from langchain.chains import RetrievalQA
 from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
@@ -40,34 +32,33 @@ def ask_openai(question, data):
     # Return the text portion of the response
     return response.choices[0].text.strip()
 
+def vector_search(mdb_uri, db_name, collection_name, index_name, embeddings, text_path, embedding_path, context, k):
+    
+    search = MongoDBAtlasVectorSearch.from_connection_string(
+        mdb_uri,
+        db_name + "." + collection_name,
+        embeddings,
+        index_name=index_name,
+        text_key=text_path, #name of the field to be vectorized
+        embedding_key=embedding_path #name of the field to store the embeddings
+    )
 
-vector_search = MongoDBAtlasVectorSearch.from_connection_string(
-    CONNECTION_STRING,
-    DB_NAME + "." + COLLECTION_NAME,
-    embeddings,
-    index_name=INDEX_NAME,
-    text_key="claimDescription",
-    embedding_key="claimDescriptionEmbedding"
-)
+    return search.similarity_search(context, k)
 
+#Possible prompts and contexts
 context = "I had an accident because of a flat tire. To calculate repair time use claimFNOLdate as start date and claimCloseDate as end date."
 #question = "Calculate the average loss amount for the accidents and summarize similar accidents."
 #question = "Tell me the average repair time for this claim based on similar claims."
 question = "Tell me the if the customer has a coverages for these kind of accidents."
 
-results = vector_search.similarity_search(
-    query=context, k=3)
-
+#Search for similar claims based on the context
+result = vector_search(mongo_uri, DB_NAME, COLLECTION_NAME, INDEX_NAME, embeddings, "claimDescription", "claimDescriptionEmbedding", context, 3)
 #Strips embedding from the results to avoid sending it to OpenAI for performance reasons
-for doc in results:
+for doc in result:
     del doc.metadata['damageDescriptionEmbedding']
 
-response = ask_openai(question, results)
+#Interrogate the llm
+response = ask_openai(question, result)
 
 print(response)
-
-
-
-
-
 
