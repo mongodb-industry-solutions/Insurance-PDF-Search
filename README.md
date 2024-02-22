@@ -1,6 +1,5 @@
 # Insurance RAG demo
 
-Some Text
 
 run
 ```bash
