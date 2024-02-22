@@ -49,8 +49,6 @@ def vector_search(mdb_uri, db_name, collection_name, index_name, embeddings, tex
 
 
 
-
-
 #Possible prompts and contexts
 #context = "To calculate repair time use claimFNOLdate as start date and claimCloseDate as end date."
 context = "I had an accident because of a flat tire. Tell me the average repair time for this claim based on similar claims. To calculate repair time use claimFNOLdate as start date and claimCloseDate as end date."
@@ -62,6 +60,7 @@ question = "Find accidents caused by adverse weather. Tell me the average repair
 #Search for similar claims based on the context
 #For a better search we could use context instead of question 
 result = vector_search(mongo_uri, DB_NAME, COLLECTION_NAME, INDEX_NAME, embeddings, "claimDescription", "claimDescriptionEmbedding", question, 3)
+print(result)
 #Strips embedding from the results to avoid sending it to OpenAI for performance reasons
 for doc in result:
     #print(doc.page_content)
