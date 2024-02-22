@@ -9,5 +9,5 @@ source env/bin/activate
 and then
 
 ```bash
-source env/bin/activate 
+uvicorn main:app --reload    
 ```
