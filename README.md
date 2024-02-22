@@ -1,5 +1,6 @@
 # Insurance RAG demo
 
+Set up your OpenAI API key and your MongoDB connection string
 
 run
 ```bash
