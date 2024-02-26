@@ -12,7 +12,7 @@ const AskLeafy = () => {
 
   const handleAsk = async () => {
     console.log("Asking Leafy:", question);
-    const apiUrl = "http://127.0.0.1:8000/testTheLlm";
+    const apiUrl = "http://127.0.0.1:8000/askTheLlm";
 
     try {
       const response = await axios.post(
@@ -37,6 +37,8 @@ const AskLeafy = () => {
       "Find accidents caused by adverse weather. Tell me the average repair time for this claim based on similar claims."
     );
   };
+
+
 
   return (
     <div className={styles.content}>
