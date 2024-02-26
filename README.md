@@ -1,4 +1,4 @@
-# Insurance RAG demo
+# Insurance RAG demo - WIP
 
 Set up your OpenAI API key and your MongoDB connection string
 
