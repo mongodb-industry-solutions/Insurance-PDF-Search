@@ -11,7 +11,7 @@ and then
 ```bash
 uvicorn main:app --reload    
 ```
-ls frontend
+move to /frontend
 
 ```bash
 npm start    
