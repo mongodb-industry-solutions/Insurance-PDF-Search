@@ -11,6 +11,8 @@ and then
 ```bash
 uvicorn main:app --reload    
 ```
-connect to 
+ls frontend
 
-http://127.0.0.1:8000/docs
+```bash
+npm start    
+```
