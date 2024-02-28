@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./askLeafy.module.css";
 import axios from "axios";
 
 const AskLeafy = () => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
-  const [docs, getDocs] = useState([]);
+  const [docs, setDocs] = useState("");
 
   const handleChange = (event) => {
     setQuestion(event.target.value);
@@ -28,14 +28,16 @@ const AskLeafy = () => {
 
       console.log("Answer:", response.data);
       setAnswer(response.data.result);
-      getDocs(response.data.similar_docs);
+      setDocs(response.data.similar_docs);
 
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
-  //console.log(docs[0].metadata);
+  console.log((docs.length > 0 ? JSON.stringify(docs[0].metadata) : ""));
+
+  
 
   const handleLoremIpsum = () => {
     setQuestion(
@@ -73,6 +75,16 @@ const AskLeafy = () => {
       </div>
       <div className={styles.references}>
         <h2>References</h2>
+        {docs.length > 0 && (
+          <div>
+            {docs.map((doc, index) => (
+              <div key={index}>
+                <p>Damage Description: {doc.metadata.damageDescription}</p>
+                {/* Render other metadata properties as needed */}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
