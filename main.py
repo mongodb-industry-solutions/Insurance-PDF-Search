@@ -26,5 +26,5 @@ router = APIRouter()
 async def ask_llm(request: Request):
     data = await request.json()
     question = data.get("question")
-    llm_output = interrogate_llm(question)
-    return {"question": question, "result": llm_output}
+    similar_docs, llm_output = interrogate_llm(question)
+    return {"question": question, "result": llm_output, "similar_docs": similar_docs}
