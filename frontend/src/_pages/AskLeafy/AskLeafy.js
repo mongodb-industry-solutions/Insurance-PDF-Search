@@ -35,7 +35,7 @@ const AskLeafy = () => {
     }
   };
 
-  console.log(docs[0].metadata);
+  //console.log(docs[0].metadata);
 
   const handleLoremIpsum = () => {
     setQuestion(
@@ -48,7 +48,7 @@ const AskLeafy = () => {
   return (
     <div className={styles.content}>
       <div className={styles.chat}>
-        <h2>Ask Leafy a question</h2>
+        <h2>Ask Leafy a Question</h2>
         <div className={styles.question}>
           <input
             className={styles.input}
@@ -61,13 +61,15 @@ const AskLeafy = () => {
             Ask
           </button>
           <div className={styles.suggestedQuestions}>
+            <p>Suggested Questions:</p>
+
             <button className={styles.suggestion} onClick={handleLoremIpsum}>
               Find accidents caused by adverse weather. Tell me the average
               repair time for this claim based on similar claims.
             </button>
           </div>
         </div>
-        <div className={styles.answer}>{answer && <p>{answer}</p>}</div>
+        <div >{answer && <p className={styles.answer}>{answer}</p>}</div>
       </div>
       <div className={styles.references}>
         <h2>References</h2>
