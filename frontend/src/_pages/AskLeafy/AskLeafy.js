@@ -5,6 +5,7 @@ import axios from "axios";
 const AskLeafy = () => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
+  const [docs, getDocs] = useState([]);
 
   const handleChange = (event) => {
     setQuestion(event.target.value);
@@ -27,10 +28,14 @@ const AskLeafy = () => {
 
       console.log("Answer:", response.data);
       setAnswer(response.data.result);
+      getDocs(response.data.similar_docs);
+
     } catch (error) {
       console.error("Error:", error);
     }
   };
+
+  console.log(docs[0].metadata);
 
   const handleLoremIpsum = () => {
     setQuestion(
