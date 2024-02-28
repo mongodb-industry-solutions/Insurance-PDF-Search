@@ -28,6 +28,16 @@
     color: #13aa52;
 }
 
-.user{
+/* Styling for active links */
+.links a:visited,
+.links a:active,
+.links a:focus {
+    text-decoration: underline;
+    /* Underline when active */
+    font-weight: 600;
+}
+
+
+.user {
     margin-right: 30px;
 }

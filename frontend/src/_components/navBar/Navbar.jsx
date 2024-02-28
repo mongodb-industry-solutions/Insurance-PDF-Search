@@ -1,10 +1,12 @@
-import React from 'react';
+import React from "react";
 import { Link } from 'react-router-dom';
 import UserProfile from '../userProfile/UserProfile';
 import styles from "./navbar.module.css";
 
 
 const Navbar = () => {
+
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.logo}>
