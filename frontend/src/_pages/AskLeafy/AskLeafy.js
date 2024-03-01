@@ -37,11 +37,17 @@ const AskLeafy = () => {
 
   console.log((docs.length > 0 ? JSON.stringify(docs[0].metadata) : ""));
 
-  
 
-  const handleLoremIpsum = () => {
+
+  const handleSuggestionOne = () => {
     setQuestion(
       "Find accidents caused by adverse weather. Tell me the average repair time for this claim based on similar claims."
+    );
+  };
+
+  const handleSuggestionTwo = () => {
+    setQuestion(
+      "What is the average loss amount out of all of the claims?"
     );
   };
 
@@ -65,9 +71,12 @@ const AskLeafy = () => {
           <div className={styles.suggestedQuestions}>
             <p>Suggested Questions:</p>
 
-            <button className={styles.suggestion} onClick={handleLoremIpsum}>
+            <button className={styles.suggestion} onClick={handleSuggestionOne}>
               Find accidents caused by adverse weather. Tell me the average
               repair time for this claim based on similar claims.
+            </button>
+            <button className={styles.suggestion} onClick={handleSuggestionTwo}>
+              What is the average loss amount out of all of the claims?
             </button>
           </div>
         </div>
@@ -75,14 +84,46 @@ const AskLeafy = () => {
       </div>
       <div className={styles.references}>
         <h2>References</h2>
+
         {docs.length > 0 && (
           <div>
             {docs.map((doc, index) => (
-              <div key={index}>
-                <p>Damage Description: {doc.metadata.damageDescription}</p>
-                {/* Render other metadata properties as needed */}
+              <div className={styles.referenceCards} key={index}>
+
+                <div className={styles.imgSection}>
+
+                  <img src={`/photos/${doc.metadata.photo}`} alt="Claim photo"/>
+
+                </div>
+
+                <div className={styles.contentSection}>
+                  <div className={styles.upperSection}>
+                    <div className={styles.fieldWrapper}>
+                      <p className={styles.fieldTitle}>Customer ID:</p>
+                      <p className={styles.fieldContent}>{doc.metadata.customerID}</p>
+                    </div>
+
+                    <div className={styles.fieldWrapper}>
+                      <p className={styles.fieldTitle}>Claim Date:</p>
+                      <p className={styles.fieldContent}>{doc.metadata.claimFNOLDate}</p>
+                    </div>
+
+                    <div className={styles.fieldWrapper}>
+                      <p className={styles.fieldTitle}>Loss Amount:</p>
+                      <p className={styles.lossAmount}>${doc.metadata.totalLossAmount}</p>
+                    </div>
+                  </div>
+
+                  <div className={styles.lowerSection}>
+                    <p className={styles.fieldTitle}>Damage Description:</p>
+                    <p className={styles.fieldContent}>{doc.metadata.damageDescription}</p>
+                  </div>
+                </div>
+
               </div>
             ))}
+
+
           </div>
         )}
       </div>
