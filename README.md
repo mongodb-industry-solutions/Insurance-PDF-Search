@@ -11,6 +11,7 @@ source env/bin/activate
 pip3 install uvicorn
 python install langchain
 python install langchain_openai
+python -m pip install python-dotenv
 ```
 
 and then
