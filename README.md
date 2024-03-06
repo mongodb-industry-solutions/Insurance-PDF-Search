@@ -1,6 +1,11 @@
 # Insurance RAG demo - WIP
 
-Set up your OpenAI API key and your MongoDB connection string
+Create a file named '.env' and store your OpenAI API key and MongoDB connection string in it, follow this format:
+
+```bash
+OPENAI_API_KEY=<your key>
+MONGO_URI="mongodb+srv://<usr>:<pswd>@<cluster-name>.mongodb.net/?retryWrites=true&w=majority"
+```
 
 run
 ```bash
