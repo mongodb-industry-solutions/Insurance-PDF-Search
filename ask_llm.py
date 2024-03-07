@@ -52,7 +52,6 @@ def vector_search(mdb_uri, db_name, collection_name, index_name, embeddings, tex
         del doc.metadata['_id']
         if 'claimDescriptionEmbedding' in doc.metadata:
             del doc.metadata['claimDescriptionEmbedding']
-        del doc.metadata['_id']
     
     return result
 
