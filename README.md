@@ -7,25 +7,16 @@ OPENAI_API_KEY=<your key>
 MONGO_URI="mongodb+srv://<usr>:<pswd>@<cluster-name>.mongodb.net/?retryWrites=true&w=majority"
 ```
 
-run
-```bash
-source env/bin/activate 
-```
-
 ``` bash  
-pip3 install uvicorn
-python install langchain
-python install langchain_openai
-python -m pip install python-dotenv
-pip3 install torchvision
+pip install -r requirements.txt
 ```
 
-and then
+and then launch the backend
 
 ```bash
 python3 -m uvicorn main:app --reload
 ```
-move to /frontend
+move to the frontend folder and run the frontend
 
 ```bash
 npm install
