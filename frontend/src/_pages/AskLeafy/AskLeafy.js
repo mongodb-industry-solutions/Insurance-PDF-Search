@@ -41,13 +41,13 @@ const AskLeafy = () => {
 
   const handleSuggestionOne = () => {
     setQuestion(
-      "Find accidents caused by adverse weather. Tell me the average repair time for this claim based on similar claims."
+      "Show me claims related to tire damage and summarise the coverages"
     );
   };
 
   const handleSuggestionTwo = () => {
     setQuestion(
-      "What is the average loss amount out of all of the claims?"
+      "For adverse weather related claims, what is the average loss amount?"
     );
   };
 
@@ -72,11 +72,10 @@ const AskLeafy = () => {
             <p>Suggested Questions:</p>
 
             <button className={styles.suggestion} onClick={handleSuggestionOne}>
-              Find accidents caused by adverse weather. Tell me the average
-              repair time for this claim based on similar claims.
+              Show me claims related to tire damage and summarise the coverages
             </button>
             <button className={styles.suggestion} onClick={handleSuggestionTwo}>
-              What is the average loss amount out of all of the claims?
+              For adverse weather related claims, what is the average loss amount?
             </button>
           </div>
         </div>
