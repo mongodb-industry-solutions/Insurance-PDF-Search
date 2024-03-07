@@ -1,0 +1,2 @@
+docker build -t insurance-rag-demo .
+docker run -p 8000:8000 -p 3000:3000 insurance-rag-demo
