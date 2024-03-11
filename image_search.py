@@ -51,17 +51,16 @@ def image_search(image):
     query_embedding = image_vectorizer.vectorize(query_image).tolist()
 
     documents = coll.aggregate([
-                {
-                "$search": {
-                "index": "default",
-                "knnBeta": {
-                "vector": query_embedding,
-                "path": "embedding",
-                "k": 5
-                }
-                }
-                }
-                ])
+        {
+            '$vectorSearch': {
+                'index': 'default', 
+                'path': 'embedding', 
+                'queryVector': query_embedding, 
+                'numCandidates': 50, 
+                'limit': 5
+            }
+        }
+        ]) 
 
     documents = list(documents)  
 
