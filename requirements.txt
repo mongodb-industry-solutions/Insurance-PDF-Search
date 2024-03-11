@@ -5,3 +5,4 @@ openai==1.13.3
 Pillow==10.2.0
 pymongo==4.6.2
 torchvision==0.17.1
+uvicorn==0.28.0
