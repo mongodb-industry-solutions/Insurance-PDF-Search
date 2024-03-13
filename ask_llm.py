@@ -23,7 +23,7 @@ embeddings = OpenAIEmbeddings(model="text-embedding-3-small", dimensions=350, di
 
 
 def ask_openai(question, data):
-    response = openai.completions.create(model="gpt-3.5-turbo-instruct",  # Choose an appropriate engine for your needs
+    response = openai.completions.create(model="gpt-3.5-turbo-instruct",                                               
     prompt=f"{question}\n\nAdditional Information:\n{data}",
     temperature=0.7,
     max_tokens=2000,
