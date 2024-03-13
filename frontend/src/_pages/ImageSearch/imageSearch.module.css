@@ -1,14 +1,16 @@
 .content {
+    position: absolute;
     display: flex;
     height: 100%;
+    width: 100%;
     /* Ensures the content fills the height of the parent container */
     margin-top: 220px;
-    position: fixed;
-    overflow-y: scroll; /* Enable vertical scrolling */
-
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    
 }
 
-.chat {
+.imageSearchSection {
     flex: 1;
     /* Each div takes up equal space */
     border-right: 1px solid #ccc;
@@ -19,16 +21,34 @@
     /* Ensures padding is included in the width */
 }
 
-.input {
-    border: 1px solid #C1C7C6;
-    border-radius: 50px;
-    width: 70%;
-    padding: 5px;
-    margin-right: 20px;
-    font-size: 17px;
+.similarImageSection {
+    flex: 1;
+    /* Each div takes up equal space */
+    padding: 20px;
+    /* Adjust as needed */
+
 }
 
-.askBtn {
+.dragText {
+    color: #889397;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.dragBox {
+    width: 300px;
+    height: 300px;
+    border: 2px dashed #dfdfe0;
+    margin-left: 32%;
+
+}
+
+.droppedImage {
+    width: 100%;
+    height: 100%;
+}
+
+.uploadBtn {
     border: 1px solid #C1C7C6;
     border-radius: 50px;
     background-color: white;
@@ -38,53 +58,46 @@
     padding-top: 5px;
     padding-bottom: 5px;
     font-weight: 900;
-    font-size: 17px;
+    font-size: 16px;
     box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.06);
+    margin-top: 20px;
 }
 
-.askBtn:hover {
+.uploadBtn:hover {
     background-color: #00A35C;
     color: white;
 }
 
-.suggestion {
-    border: 1px solid #C1C7C6;
-    border-radius: 50px;
-    background-color: white;
-    color: #00A35C;
-    font-weight: 600;
-    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.06);
-    font-size: 17px;
-
+.hr{
+    border: 0.5px solid #C1C7C6;
+    margin: 25px;
 }
 
-.suggestedQuestions p {
-    font-size: 17px;
+.fieldTitle {
     color: #889397;
-    margin-bottom: 0px;
-    margin-top: 30px;
+    font-weight: 700;
+    /* Make the font thicker */
+    font-size: 14px;
 }
 
-
-
-.answer {
-    font-size: 17px;
-    background-color: #edf0ef;
-    padding: 20px;
-    border-radius: 20px;
-    margin-top: 30px;
+.lossTbd {
+    background-color: #FFF3A0;
+    color: #D68D00;
+    border-radius: 50px;
+    width: fit-content;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-size: 16px;
+    font-weight: 700;
+    margin-left: 45%;
+    margin-top: 0px;
 }
 
-/*Rerefences Styles*/
+/*Similar Images Section Styles*/
 
-.references {
-    flex: 1;
-    /* Each div takes up equal space */
-    padding: 20px;
-    /* Adjust as needed */
-    box-sizing: border-box;
-    /* Ensures padding is included in the width */
-}
+
 
 .referenceCards {
     border-radius: 10px;
@@ -96,15 +109,16 @@
 }
 
 .imgSection {
-   
     /* Set the width of imgSection to 30% */
-   margin-left: 0px;
-   text-align: left;
+    margin-left: 0px;
+    text-align: left;
 }
 
 .imgSection img {
-    width: 200px; /* Force images to have 100% width */
-    height: auto; /* Fixed height */
+    width: 200px;
+    /* Force images to have 100% width */
+    height: auto;
+    /* Fixed height */
 }
 
 
@@ -117,7 +131,7 @@
 
 .upperSection {
     display: flex;
-    flex-wrap: wrap;
+
     /* Allow items to wrap to the next line if necessary */
     width: 100%;
 }
@@ -155,13 +169,7 @@
     font-size: 16px;
 }
 
-.fieldTitle {
-    color: #889397;
-    font-weight:700; /* Make the font thicker */
-    font-size: 13px;
-}
-
-.fieldContent{
+.fieldContent {
     font-size: 16px;
     margin-top: 5px;
 }

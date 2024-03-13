@@ -8,8 +8,8 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.03);
+    z-index: 1000;
 }
 
 .logo {
@@ -28,13 +28,13 @@
     color: #13aa52;
 }
 
-/* Styling for active links */
-.links a:visited,
-.links a:active,
+/* Focus styles */
 .links a:focus {
-    text-decoration: underline;
-    /* Underline when active */
-    font-weight: 600;
+    color: white;
+    background-color: #13aa52;
+    border-radius: 50px;
+    font-weight: 700;
+    padding: 10px;
 }
 
 

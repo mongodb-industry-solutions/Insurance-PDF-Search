@@ -21,8 +21,8 @@ const Navbar = () => {
       <div className={styles.user}>
         <UserProfile></UserProfile>
       </div>
-      
-      
+
+
     </nav>
   );
 };
