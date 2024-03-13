@@ -1,2 +1,5 @@
-docker build -t insurance-rag-demo .
-docker run -p 8000:8000 -p 3000:3000 insurance-rag-demo
+docker build -f Dockerfile.frontend -t rag-front .
+docker run -d -p 3000:3000 rag-front
+
+docker build -f Dockerfile.backend -t rag-back .
+docker run -d -p 8000:8000 rag-back
