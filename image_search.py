@@ -66,15 +66,22 @@ def image_search(image):
         ]) 
 
     documents = list(documents)  
+   
     similar_images_list = []
     
     for i in range (limit):
         image_file = documents[i]['photo']
         image_path = os.path.join(image_folder, image_file)
         similar_images_list.append(image_path)
+        del documents[i]['damageDescriptionEmbedding']
+        del documents[i]['claimDescriptionEmbedding']
+        del documents[i]['photoEmbedding']
 
+    print(documents)
     #reset test image
     if os.path.exists('frontend/public/photos/test.jpg'):
         os.remove('frontend/public/photos/test.jpg')
     
-    return similar_images_list
+    
+    #return similar_images_list
+    return documents
