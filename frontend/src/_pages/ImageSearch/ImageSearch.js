@@ -50,6 +50,16 @@ const ImageSearch = () => {
     }
   };
 
+  const getCurrentDate = () => {
+    const currentDate = new Date();
+    const day = currentDate.getDate().toString().padStart(2, '0');
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const year = currentDate.getFullYear();
+
+    return `${year}-${month}-${day}`;
+  };
+
+
   return (
     <div className={styles.content}>
       <div className={styles.imageSearchSection}>
@@ -70,17 +80,37 @@ const ImageSearch = () => {
         <hr className={styles.hr}></hr>
 
         {showLossAmount && ( // Conditionally render lossAmountTbd based on showLossAmount state
-          <div className={styles.lossAmountTbd}>
-            <p className={styles.fieldTitle}>Loss Amount:</p>
-            <p className={styles.lossTbd}>TBD</p>
+
+          <div className={styles.uploadedImgInfo}>
+
+            <div className={styles.info}>
+              <p className={styles.fieldTitle}>CustomerID:</p>
+              <p className={styles.fieldContent}>C1234</p>
+            </div>
+
+            <div className={styles.info}>
+              <p className={styles.fieldTitle}>Claim Date:</p>
+              <p className={styles.fieldContent}>{getCurrentDate()}</p>
+            </div>
+
+            <div className={styles.info}>
+              <p className={styles.fieldTitle}>Claim Status:</p>
+              <p className={styles.statusTag}>Active</p>
+            </div>
+
+            <div className={styles.info}>
+              <p className={styles.fieldTitle}>Loss Amount:</p>
+              <p className={styles.lossTbd}>TBD</p>
+            </div>
           </div>
+
         )}
       </div>
 
       <div className={styles.similarImageSection}>
 
         <SimilarImagesList similarImages={similarImages} />
-        
+
       </div>
     </div>
   );
@@ -95,9 +125,9 @@ const SimilarImagesList = ({ similarImages }) => {
 
       {similarImages.map((imagePath, index) => (
 
-          <div key={index} >
-            
-            <div className={styles.referenceCards}>
+        <div key={index} >
+
+          <div className={styles.referenceCards}>
 
             <div className={styles.imgSection}>
               {/* Extract the file name from the path */}

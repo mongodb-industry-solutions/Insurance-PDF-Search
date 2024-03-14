@@ -7,7 +7,7 @@
     margin-top: 220px;
     overflow-y: auto;
     /* Enable vertical scrolling */
-    
+
 }
 
 .imageSearchSection {
@@ -68,9 +68,23 @@
     color: white;
 }
 
-.hr{
+.hr {
     border: 0.5px solid #C1C7C6;
     margin: 25px;
+}
+
+.uploadedImgInfo {
+    display: flex;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+    margin-left: 50px;
+    width: fit-content;
+    padding-right: 50px;
+}
+
+.info{
+    margin-left: 50px;
+    text-align: left;
 }
 
 .fieldTitle {
@@ -78,6 +92,20 @@
     font-weight: 700;
     /* Make the font thicker */
     font-size: 14px;
+}
+
+.statusTag {
+    background-color: #cff8bf;
+    color: #025019;
+    border-radius: 50px;
+    width: fit-content;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 0px;
 }
 
 .lossTbd {
@@ -91,7 +119,6 @@
     padding-bottom: 2px;
     font-size: 16px;
     font-weight: 700;
-    margin-left: 45%;
     margin-top: 0px;
 }
 
@@ -101,7 +128,7 @@
 
 .referenceCards {
     border-radius: 10px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.09);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.20);
     padding: 15px;
     margin-bottom: 10px;
     display: flex;
