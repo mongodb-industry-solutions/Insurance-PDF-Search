@@ -91,7 +91,7 @@ const SimilarImagesList = ({ similarImages }) => {
 
   return (
     <div>
-      <h2>Similar Images</h2>
+      <h2>Similar Claims</h2>
 
       {similarImages.map((imagePath, index) => (
 
@@ -101,7 +101,7 @@ const SimilarImagesList = ({ similarImages }) => {
 
             <div className={styles.imgSection}>
               {/* Extract the file name from the path */}
-              <img src={`/car_damage/${imagePath.split('/').pop()}`} alt={`Image ${index + 1}`} />
+              <img src={`/photos/${imagePath.split('/').pop()}`} alt={`Image ${index + 1}`} />
             </div>
 
 

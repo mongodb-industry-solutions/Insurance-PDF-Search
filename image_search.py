@@ -11,8 +11,10 @@ load_dotenv()
 mongo_uri = os.getenv("MONGO_URI")
 CONNECTION_STRING = str(mongo_uri)
 MongoClient = MongoClient(CONNECTION_STRING)
-db = MongoClient['claim_resolution']
-coll = db['car_damage_photos']
+#db = MongoClient['claim_resolution']
+#coll = db['car_damage_photos']
+db = MongoClient['demo_rag_insurance']
+coll = db['claims_final']
 
 class ImageVectorizer:
     def __init__(self):
@@ -42,37 +44,37 @@ def image_search(image):
     if image.format != "JPEG":
         image = image.convert("RGB")
 
-    image.save("frontend/public/car_damage/test.jpg", format="JPEG")
+    image.save("frontend/public/photos/test.jpg", format="JPEG")
 
     
 
-    query_image = 'frontend/public/car_damage/test.jpg'
-    image_folder = 'car_damage/'
+    query_image = 'frontend/public/photos/test.jpg'
+    image_folder = 'photos/'
     query_embedding = image_vectorizer.vectorize(query_image).tolist()
+    limit = 4
 
     documents = coll.aggregate([
         {
             '$vectorSearch': {
                 'index': 'default', 
-                'path': 'embedding', 
+                'path': 'photoEmbedding', 
                 'queryVector': query_embedding, 
-                'numCandidates': 50, 
-                'limit': 5
+                'numCandidates': 10, 
+                'limit': limit
             }
         }
         ]) 
 
     documents = list(documents)  
-
     similar_images_list = []
-
-    for i in range (5):
-        image_file = documents[i]['filename']
+    
+    for i in range (limit):
+        image_file = documents[i]['photo']
         image_path = os.path.join(image_folder, image_file)
         similar_images_list.append(image_path)
 
     #reset test image
-    if os.path.exists('frontend/public/car_damage/test.jpg'):
-        os.remove('frontend/public/car_damage/test.jpg')
+    if os.path.exists('frontend/public/photos/test.jpg'):
+        os.remove('frontend/public/photos/test.jpg')
     
     return similar_images_list

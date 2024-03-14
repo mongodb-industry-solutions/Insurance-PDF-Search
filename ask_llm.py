@@ -50,6 +50,7 @@ def vector_search(mdb_uri, db_name, collection_name, index_name, embeddings, tex
         #Stripping embedding to reduce the input to the llm, and the _id field because FastAPI doesn't like it
         del doc.metadata['damageDescriptionEmbedding']
         del doc.metadata['_id']
+        del doc.metadata['photoEmbedding']
         if 'claimDescriptionEmbedding' in doc.metadata:
             del doc.metadata['claimDescriptionEmbedding']
     
