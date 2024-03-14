@@ -76,12 +76,11 @@ def image_search(image):
         del documents[i]['damageDescriptionEmbedding']
         del documents[i]['claimDescriptionEmbedding']
         del documents[i]['photoEmbedding']
+        del documents[i]['_id']
 
-    print(documents)
     #reset test image
     if os.path.exists('frontend/public/photos/test.jpg'):
         os.remove('frontend/public/photos/test.jpg')
     
-    
+    return similar_images_list, documents
     #return similar_images_list
-    return documents

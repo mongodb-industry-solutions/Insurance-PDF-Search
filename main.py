@@ -36,5 +36,7 @@ async def ask_llm(request: Request):
 async def find_similar_images(request: Request):
     data = await request.json()
     droppedImage = data.get("droppedImage") 
-    similar_photos = image_search(droppedImage)
-    return {"similar_photos": similar_photos}
+    similar_photos, similar_documents = image_search(droppedImage)
+    #similar_photos = image_search(droppedImage)
+    #return {"similar_photos": similar_photos}
+    return {"similar_photos": similar_photos, "similar_documents": similar_documents}

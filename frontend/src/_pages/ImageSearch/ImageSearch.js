@@ -6,8 +6,7 @@ const ImageSearch = () => {
   const [droppedImage, setDroppedImage] = useState(null);
   const [similarImages, setSimilarImages] = useState([]);  // similarImages is an array of objects [{image: "image1", metadata: "metadata1"}, {image: "image2", metadata: "metadata2"}]
   const [showLossAmount, setShowLossAmount] = useState(false); // State to track whether to show lossAmountTbd
-  //const [docs, setDocs] = useState("");
-
+  const [similarDocs, setSimilarDocs] = useState([]);
 
   useEffect(() => { }, [similarImages]);
 
@@ -44,7 +43,8 @@ const ImageSearch = () => {
       );
 
       setSimilarImages(response.data.similar_photos);
-      //setDocs(response.data.similar_docs);
+      setSimilarDocs(response.data.similar_docs);
+    
     } catch (error) {
       console.error("Error:", error);
     }
@@ -109,29 +109,31 @@ const ImageSearch = () => {
 
       <div className={styles.similarImageSection}>
 
-        <SimilarImagesList similarImages={similarImages} />
+        {/* <SimilarImagesList similarImages={similarImages} similarDocs={similarDocs}/> */}
+        <SimilarImagesList similarImages={similarImages} similarDocs={similarDocs}/>
 
       </div>
     </div>
   );
 };
 
-const SimilarImagesList = ({ similarImages }) => {
-
-
+const SimilarImagesList = ({ similarImages, similarDocs }) => {
   return (
     <div>
       <h2>Similar Claims</h2>
 
       {similarImages.map((imagePath, index) => (
-
+        
+        
         <div key={index} >
 
           <div className={styles.referenceCards}>
 
             <div className={styles.imgSection}>
               {/* Extract the file name from the path */}
-              <img src={`/photos/${imagePath.split('/').pop()}`} alt={`Image ${index + 1}`} />
+              {/* <img src={`/photos/${imagePath.split('/').pop()}`} alt={`Image ${index + 1}`} /> */}
+              {/* <img src={`/${imagePath}`} alt={`Image ${index + 1}`} /> */}
+              <img src={`/${imagePath}`} alt={`Image ${index + 1}`} />
             </div>
 
 
@@ -141,7 +143,8 @@ const SimilarImagesList = ({ similarImages }) => {
               <div className={styles.upperSection}>
                 <div className={styles.fieldWrapper}>
                   <p className={styles.fieldTitle}>Customer ID:</p>
-                  <p className={styles.fieldContent}>CXXXXX</p>
+                  {/* <p className={styles.fieldContent}>{JSON.stringify(similarDocs[index].customerID)}</p> */}
+                  <p className={styles.fieldContent}>placeholder</p>
                 </div>
 
                 <div className={styles.fieldWrapper}>
