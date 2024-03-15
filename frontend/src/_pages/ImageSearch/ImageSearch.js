@@ -6,7 +6,7 @@ const ImageSearch = () => {
   const [droppedImage, setDroppedImage] = useState(null);
   const [similarImages, setSimilarImages] = useState([]);  // similarImages is an array of objects [{image: "image1", metadata: "metadata1"}, {image: "image2", metadata: "metadata2"}]
   const [showLossAmount, setShowLossAmount] = useState(false); // State to track whether to show lossAmountTbd
-  const [similarDocs, setSimilarDocs] = useState([]);
+  const [similarDocs, setSimilarDocs] = useState("");
 
   useEffect(() => { }, [similarImages]);
 
@@ -49,6 +49,8 @@ const ImageSearch = () => {
       console.error("Error:", error);
     }
   };
+  
+  console.log((similarDocs.length > 0 ? JSON.stringify(similarDocs[0].customerID) : ""));
 
   const getCurrentDate = () => {
     const currentDate = new Date();
@@ -109,7 +111,6 @@ const ImageSearch = () => {
 
       <div className={styles.similarImageSection}>
 
-        {/* <SimilarImagesList similarImages={similarImages} similarDocs={similarDocs}/> */}
         <SimilarImagesList similarImages={similarImages} similarDocs={similarDocs}/>
 
       </div>
@@ -143,7 +144,7 @@ const SimilarImagesList = ({ similarImages, similarDocs }) => {
               <div className={styles.upperSection}>
                 <div className={styles.fieldWrapper}>
                   <p className={styles.fieldTitle}>Customer ID:</p>
-                  {/* <p className={styles.fieldContent}>{JSON.stringify(similarDocs[index].customerID)}</p> */}
+                  {/* <p className={styles.fieldContent}>{JSON.stringify(similarDocs[0].customerID)}</p> */}
                   <p className={styles.fieldContent}>placeholder</p>
                 </div>
 
