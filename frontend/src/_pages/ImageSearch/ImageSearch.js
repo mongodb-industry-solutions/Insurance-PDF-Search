@@ -4,15 +4,14 @@ import styles from "./imageSearch.module.css";
 
 const ImageSearch = () => {
   const [droppedImage, setDroppedImage] = useState(null);
-  const [similarImages, setSimilarImages] = useState([]);  // similarImages is an array of objects [{image: "image1", metadata: "metadata1"}, {image: "image2", metadata: "metadata2"}]
   const [showLossAmount, setShowLossAmount] = useState(false); // State to track whether to show lossAmountTbd
-  const [similarDocs, setSimilarDocs] = useState("");
+  const [similarDocs, setSimilarDocs] = useState([]);
 
-  useEffect(() => { }, [similarImages]);
+  useEffect(() => { }, [similarDocs]);
 
-  const handleDragOver = (e) => {
+  function handleDragOver(e) {
     e.preventDefault();
-  };
+  }
 
   const handleDrop = (e) => {
     e.preventDefault();
@@ -42,15 +41,16 @@ const ImageSearch = () => {
         }
       );
 
-      setSimilarImages(response.data.similar_photos);
-      setSimilarDocs(response.data.similar_docs);
+      setSimilarDocs(response.data.similar_documents);
+      
     
     } catch (error) {
       console.error("Error:", error);
     }
   };
   
-  //console.log((similarDocs.length > 0 ? JSON.stringify(similarDocs[0].customerID) : ""));
+  //console.log("Similar Docs:", similarDocs);
+
 
   const getCurrentDate = () => {
     const currentDate = new Date();
@@ -111,19 +111,11 @@ const ImageSearch = () => {
 
       <div className={styles.similarImageSection}>
 
-        <SimilarImagesList similarImages={similarImages} similarDocs={similarDocs}/>
-
-      </div>
-    </div>
-  );
-};
-
-const SimilarImagesList = ({ similarImages, similarDocs }) => {
-  return (
+  
     <div>
       <h2>Similar Claims</h2>
 
-      {similarImages.map((imagePath, index) => (
+      {similarDocs.map((imagePath, index) => (
         
         
         <div key={index} >
@@ -134,7 +126,8 @@ const SimilarImagesList = ({ similarImages, similarDocs }) => {
               {/* Extract the file name from the path */}
               {/* <img src={`/photos/${imagePath.split('/').pop()}`} alt={`Image ${index + 1}`} /> */}
               {/* <img src={`/${imagePath}`} alt={`Image ${index + 1}`} /> */}
-              <img src={`/${imagePath}`} alt={`Image ${index + 1}`} />
+              {/* <img src={`/${imagePath}`} alt={`Image ${index + 1}`} /> */}
+              <img src={`/photos/${similarDocs[index].photo}`} alt={`Image ${index + 1}`} />
             </div>
 
 
@@ -144,24 +137,23 @@ const SimilarImagesList = ({ similarImages, similarDocs }) => {
               <div className={styles.upperSection}>
                 <div className={styles.fieldWrapper}>
                   <p className={styles.fieldTitle}>Customer ID:</p>
-                  {/* <p className={styles.fieldContent}>{JSON.stringify(similarDocs[0].customerID)}</p> */}
-                  <p className={styles.fieldContent}>placeholder</p>
+                  <p className={styles.fieldContent}>{similarDocs[index].customerID}</p>
                 </div>
 
                 <div className={styles.fieldWrapper}>
                   <p className={styles.fieldTitle}>Claim Date:</p>
-                  <p className={styles.fieldContent}>20/07/1998</p>
+                  <p className={styles.fieldContent}>{similarDocs[index].claimClosedDate}</p>
                 </div>
 
                 <div className={styles.fieldWrapper}>
                   <p className={styles.fieldTitle}>Loss Amount:</p>
-                  <p className={styles.lossAmount}>$9999</p>
+                  <p className={styles.lossAmount}>${similarDocs[index].totalLossAmount}</p>
                 </div>
               </div>
 
               <div className={styles.lowerSection}>
                 <p className={styles.fieldTitle}>Damage Description:</p>
-                <p className={styles.fieldContent}>Damage Description placeholder</p>
+                <p className={styles.fieldContent}>{similarDocs[index].damageDescription}</p>
               </div>
             </div>
 
@@ -170,7 +162,12 @@ const SimilarImagesList = ({ similarImages, similarDocs }) => {
       ))}
 
     </div>
+  </div>
+    </div>
   );
-};
+  
+}
+
+  
 
 export default ImageSearch;

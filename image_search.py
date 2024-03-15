@@ -45,11 +45,8 @@ def image_search(image):
         image = image.convert("RGB")
 
     image.save("frontend/public/photos/test.jpg", format="JPEG")
-
-    
-
     query_image = 'frontend/public/photos/test.jpg'
-    image_folder = 'photos/'
+    
     query_embedding = image_vectorizer.vectorize(query_image).tolist()
     limit = 4
 
@@ -59,7 +56,7 @@ def image_search(image):
                 'index': 'default', 
                 'path': 'photoEmbedding', 
                 'queryVector': query_embedding, 
-                'numCandidates': 10, 
+                'numCandidates': 20, 
                 'limit': limit
             }
         }
@@ -67,12 +64,8 @@ def image_search(image):
 
     documents = list(documents)  
    
-    similar_images_list = []
     
     for i in range (limit):
-        image_file = documents[i]['photo']
-        image_path = os.path.join(image_folder, image_file)
-        similar_images_list.append(image_path)
         del documents[i]['damageDescriptionEmbedding']
         del documents[i]['claimDescriptionEmbedding']
         del documents[i]['photoEmbedding']
@@ -82,5 +75,5 @@ def image_search(image):
     if os.path.exists('frontend/public/photos/test.jpg'):
         os.remove('frontend/public/photos/test.jpg')
     
-    return similar_images_list, documents
-    #return similar_images_list
+    return documents
+    
