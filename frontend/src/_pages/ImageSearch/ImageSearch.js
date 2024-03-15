@@ -50,7 +50,7 @@ const ImageSearch = () => {
     }
   };
   
-  console.log((similarDocs.length > 0 ? JSON.stringify(similarDocs[0].customerID) : ""));
+  //console.log((similarDocs.length > 0 ? JSON.stringify(similarDocs[0].customerID) : ""));
 
   const getCurrentDate = () => {
     const currentDate = new Date();
