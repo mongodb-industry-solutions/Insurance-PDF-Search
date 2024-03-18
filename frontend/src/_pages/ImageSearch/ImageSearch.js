@@ -66,6 +66,7 @@ const ImageSearch = () => {
     <div className={styles.content}>
       <div className={styles.imageSearchSection}>
         <h2>Image Search</h2>
+
         <div
           className={styles.dragBox}
           onDragOver={handleDragOver}

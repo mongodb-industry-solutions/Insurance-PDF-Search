@@ -19,6 +19,9 @@
     /* Adjust as needed */
     box-sizing: border-box;
     /* Ensures padding is included in the width */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
 }
 
 .similarImageSection {
@@ -26,8 +29,9 @@
     /* Each div takes up equal space */
     padding: 20px;
     /* Adjust as needed */
-
+   
 }
+
 
 .dragText {
     color: #889397;
@@ -39,7 +43,7 @@
     width: 300px;
     height: 300px;
     border: 2px dashed #dfdfe0;
-    margin-left: 32%;
+    /*margin-left: 32%;*/
 
 }
 
