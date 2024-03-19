@@ -6,7 +6,7 @@ Create a file named '.env' and store your OpenAI API key and MongoDB connection 
 OPENAI_API_KEY=<your key>
 MONGO_URI="mongodb+srv://<usr>:<pswd>@<cluster-name>.mongodb.net/?retryWrites=true&w=majority"
 ```
-In MongoDB Atlas import the dataset "demo_rag_insurance.claims.json" and create a new Vector Search Index, specifying the number of dimensions of our embedding arrays (350 in our case),
+In MongoDB Atlas create a databse called "demo_rag_insurance" and a collection called "claims_final", import the dataset "demo_rag_insurance.claims.json". You have to create two Vector Search Indexes, one for "claimDescriptionEmbedding" called "vector_index_claim_description" specifying the number of dimensions of our embedding arrays (350 in our case),
 the field where the embeddings are stored within our document ("claimDescriptionEmbedding"), and the similarity measure ("cosine", "dotproduct" or "euclidean").
 ```json
 {
