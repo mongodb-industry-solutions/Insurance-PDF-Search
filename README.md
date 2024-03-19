@@ -32,6 +32,7 @@ In MongoDB Atlas create a databse called "demo_rag_insurance" and a collection c
   ]
 }
 ```
+run
 
 ``` bash  
 pip install -r requirements.txt
