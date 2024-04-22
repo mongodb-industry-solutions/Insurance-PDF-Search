@@ -1,11 +1,11 @@
 # Insurance-PDF-Search
 
 ### Data Preparation
-Create a file named '.env' and store your OpenAI API key and MongoDB connection string in it, follow this format:
+Create a file named '.env' and store your OpenAI API key and MongoDB connection string in it. A sample has been provided in .envsample follow this format:
 
 ```bash
 OPENAI_API_KEY=<your key>
-MONGODB_URI="mongodb+srv://<usr>:<pswd>@<cluster-name>.mongodb.net/?retryWrites=true&w=majority"
+MONGODB_URI=mongodb+srv://user:pass@cluster/db
 ```
 
 In MongoDB Atlas create a databse called "demo_rag_insurance" and a collection called "claims_final", import the dataset "demo_rag_insurance.claims.json" into the collection. You have to create two Vector Search Indexes, one for "claimDescriptionEmbedding" called "vector_index_claim_description" and one for "photoEmbedding" called "default":
