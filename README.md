@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-# Insurance RAG demo - WIP
+# Insurance-PDF-Search
 
 ### Data Preparation
 Create a file named '.env' and store your OpenAI API key and MongoDB connection string in it, follow this format:
@@ -66,7 +65,3 @@ move to the frontend folder and run the frontend
 npm install
 npm start
 ```
-
-=======
-# Insurance-PDF-Search
->>>>>>> dcc9988b9d129ab9537afeeec76164c896265247
