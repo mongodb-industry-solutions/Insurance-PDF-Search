@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Insurance RAG demo - WIP
 
 ### Data Preparation
@@ -66,3 +67,6 @@ npm install
 npm start
 ```
 
+=======
+# Insurance-PDF-Search
+>>>>>>> dcc9988b9d129ab9537afeeec76164c896265247
