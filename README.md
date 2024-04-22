@@ -1,7 +1,7 @@
 # Insurance-PDF-Search
 
 ### Data Preparation
-Create a file named '.env' and store your OpenAI API key and MongoDB connection string in it. A sample has been provided in .envsample follow this format:
+Create a file named '.env' and store your OpenAI API key and MongoDB connection string in it. A sample has been provided in '.envsample'. Follow this format:
 
 ```bash
 OPENAI_API_KEY=<your key>
