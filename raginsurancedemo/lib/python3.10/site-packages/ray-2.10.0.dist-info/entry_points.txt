@@ -1,0 +1,6 @@
+[console_scripts]
+ray = ray.scripts.scripts:main
+rllib = ray.rllib.scripts:cli [rllib]
+serve = ray.serve.scripts:cli
+tune = ray.tune.cli.scripts:cli
+

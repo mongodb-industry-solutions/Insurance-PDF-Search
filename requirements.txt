@@ -8,3 +8,10 @@ pymongo==4.6.2
 torchvision==0.17.1
 uvicorn==0.27.1
 python-dotenv==1.0.1
+unstructured[pdf]
+opencv-python-headless==4.8.0.74
+sentence-transformers
+git+https://github.com/SuperDuperDB/superduperdb@7a2cf914b5723141f63053d10077333d9093137a#egg=superduperdb
+python-dotenv
+click
+tqdm

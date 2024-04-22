@@ -8,7 +8,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-mongo_uri = os.getenv("MONGO_URI")
+mongo_uri = os.getenv("MONGODB_URI")
 CONNECTION_STRING = str(mongo_uri)
 MongoClient = MongoClient(CONNECTION_STRING)
 #db = MongoClient['claim_resolution']

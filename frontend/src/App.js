@@ -3,6 +3,7 @@ import './App.css';
 import * as Realm from "realm-web";
 import ImageSearch from './_pages/ImageSearch/ImageSearch';
 import AskLeafy from './_pages/AskLeafy/AskLeafy';
+import AskThePDF from './_pages/AskThePDF/AskThePDF';
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './_components/navBar/Navbar';
@@ -21,6 +22,7 @@ function App() {
           <Routes>
             <Route path="/imageSearch" element={<ImageSearch />} />
             <Route path="/askLeafy" element={<AskLeafy />} />
+            <Route path="/askthepdf" element={<AskThePDF />} />
           </Routes>
         </BrowserRouter>
       </header>

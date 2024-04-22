@@ -16,6 +16,7 @@ const Navbar = () => {
       <div className={styles.links}>
         <Link to="/imageSearch">Image Search</Link>
         <Link to="/askLeafy">Ask Leafy</Link>
+        <Link to="/askThePDF">Ask The PDF</Link>
       </div>
 
       <div className={styles.user}>

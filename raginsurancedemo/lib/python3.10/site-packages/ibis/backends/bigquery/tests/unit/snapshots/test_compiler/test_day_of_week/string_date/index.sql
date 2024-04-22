@@ -1,0 +1,2 @@
+SELECT
+  MOD(EXTRACT(DAYOFWEEK FROM CAST('2017-01-01' AS DATE)) + 5, 7) AS `DayOfWeekIndex_datetime_date_2017_ 1_ 1`

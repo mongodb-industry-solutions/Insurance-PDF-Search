@@ -1,0 +1,27 @@
+Metadata-Version: 2.1
+Name: mongomock
+Version: 4.1.2
+Summary: Fake pymongo stub for testing simple MongoDB-dependent code
+Author: Rotem Yaari
+Author-email: vmalloc@gmail.com
+License: BSD
+Project-URL: Source, https://github.com/mongomock/mongomock
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Topic :: Database
+License-File: LICENSE
+Requires-Dist: sentinels
+Requires-Dist: packaging
+
+Fake pymongo stub for testing simple MongoDB-dependent code

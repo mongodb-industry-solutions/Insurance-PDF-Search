@@ -10,7 +10,7 @@ os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 #MDB
-mongo_uri = os.getenv("MONGO_URI")
+mongo_uri = os.getenv("MONGODB_URI")
 CONNECTION_STRING = str(mongo_uri)
 DB_NAME = "demo_rag_insurance"
 COLLECTION_NAME = "claims_final"

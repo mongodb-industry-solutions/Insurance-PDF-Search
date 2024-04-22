@@ -1,0 +1,1 @@
+coalesce(`l_quantity`, 0)

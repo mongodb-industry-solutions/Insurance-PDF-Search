@@ -1,0 +1,1 @@
+cast(ceil(`int_col`) AS BIGINT)

@@ -1,0 +1,1 @@
+cast(floor(`int_col`) AS BIGINT)

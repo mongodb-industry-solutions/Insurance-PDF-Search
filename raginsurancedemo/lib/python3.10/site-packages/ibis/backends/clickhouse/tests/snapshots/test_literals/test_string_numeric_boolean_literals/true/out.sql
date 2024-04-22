@@ -1,0 +1,2 @@
+SELECT
+  TRUE AS True

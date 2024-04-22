@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkray_dashboard_client=self.webpackChunkray_dashboard_client||[]).push([[495],{6495:function(r,a,n){n.r(a);var t=n(8596),e=(n(2791),n(9903)),c=n(184),i=(0,t.Z)((function(r){return{root:{padding:r.spacing(2),width:"100%",backgroundColor:"white"}}}));a.default=function(){var r=i();return(0,c.jsx)("div",{className:r.root,children:(0,c.jsx)(e.Z,{})})}}}]);
+//# sourceMappingURL=495.7a398a42.chunk.js.map
