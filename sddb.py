@@ -17,7 +17,6 @@ from superduperdb.backends.mongodb import Collection
 from superduperdb import logging
 from superduperdb.base.artifact import Artifact
 from superduperdb.ext.openai import OpenAIEmbedding
-
 from utils import get_chunks, get_related_merged_documents
 
 load_dotenv()

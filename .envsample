@@ -1,8 +1,0 @@
-MONGODB_URI=mongodb+srv://user:pass@cluster/db
-ARTIFACT_STORE=data/nyguidlines/artifacts
-IMAGES_FOLDER=data/nyguidlines/images
-# let question path on the root of the project
-CANDIDATE_QUESTIONS=questions.txt
-USE_OPENAI=TRUE
-TITLE="SuperDuperDB / Guidlines: PDF AI Search & RAG Chat (OpenAI)"
-OPENAI_API_KEY=""
