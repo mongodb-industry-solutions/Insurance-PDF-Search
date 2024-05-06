@@ -1,9 +1,0 @@
-r0 := UnboundTable: t
-  col  int64
-  col2 string
-  col3 float64
-
-Selection[r0]
-  selections:
-    r0
-    col4: StringLength(r0.col2)

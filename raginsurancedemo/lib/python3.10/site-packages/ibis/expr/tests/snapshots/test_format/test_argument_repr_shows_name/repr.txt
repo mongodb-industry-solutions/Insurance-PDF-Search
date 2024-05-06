@@ -1,4 +1,0 @@
-r0 := UnboundTable: fakename2
-  fakecolname1 int64
-
-NullIf(fakecolname1, 2): NullIf(r0.fakecolname1, null_if_expr=2)

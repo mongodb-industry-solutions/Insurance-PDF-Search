@@ -1,2 +1,0 @@
-DummyTable
-  foo array<int8>

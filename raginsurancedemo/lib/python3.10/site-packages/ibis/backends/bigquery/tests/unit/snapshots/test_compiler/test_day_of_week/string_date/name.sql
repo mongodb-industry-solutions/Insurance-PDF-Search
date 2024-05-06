@@ -1,2 +1,0 @@
-SELECT
-  INITCAP(CAST(CAST('2017-01-01' AS DATE) AS STRING FORMAT 'DAY')) AS `DayOfWeekName_datetime_date_2017_ 1_ 1`

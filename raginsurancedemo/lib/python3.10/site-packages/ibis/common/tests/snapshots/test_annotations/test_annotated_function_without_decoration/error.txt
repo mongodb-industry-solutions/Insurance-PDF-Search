@@ -1,3 +1,0 @@
-test(1, 2) missing a required argument: 'c'
-
-Expected signature: test(a: None, b: None, c: None)

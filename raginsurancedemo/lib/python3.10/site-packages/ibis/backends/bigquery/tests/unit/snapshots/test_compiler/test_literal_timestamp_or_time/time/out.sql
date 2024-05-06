@@ -1,2 +1,0 @@
-SELECT
-  EXTRACT(hour FROM CAST('04:55:59' AS TIME)) AS `tmp`
