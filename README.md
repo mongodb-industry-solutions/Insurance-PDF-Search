@@ -84,14 +84,14 @@ pip install -r requirements.txt
 #### Parse the pdfs and add model in database
 
 ```
-python sddb.py --init
+python3 sddb.py --init
 ```
 
 #### Ask your PDF Sample Queries
 
 ```
-python sddb.py --query "What is a Certificate of Insurance?"
-python sddb.py --query "what strategy should an insurer first determine?"
+python3 sddb.py --query "What is a Certificate of Insurance?"
+python3 sddb.py --query "what strategy should an insurer first determine?"
 ```
 
 and now, launch the backend
