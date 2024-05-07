@@ -52,7 +52,7 @@ python sddb.py --init
 #### Ask your PDF Sample Queries
 
 ```
-python sddb.py --query "What is a Certificate of Insurance?
+python sddb.py --query "What is a Certificate of Insurance?"
 python sddb.py --query "what strategy should an insurer first determine?"
 ```
 
