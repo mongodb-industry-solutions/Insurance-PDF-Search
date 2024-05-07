@@ -1,5 +1,18 @@
 # Insurance-PDF-Search
 
+### Add environment variables
+
+> **_Note:_** Create a .env file within the backend directory.
+
+```
+MONGODB_URI=
+ARTIFACT_STORE=data/guidlines/artifacts
+IMAGES_FOLDER=data/guidlines/images
+USE_OPENAI=TRUE
+TITLE="SuperDuperDB / Insurance Guidlines: AI Search & RAG Chat (OpenAI)"
+OPENAI_API_KEY=
+```
+
 ### Data Preparation
 
 Create a file named '.env' and store your OpenAI API key and MongoDB connection string in it. A sample has been provided in '.envsample'. Follow this format:
