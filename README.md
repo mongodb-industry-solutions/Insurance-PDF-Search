@@ -1,6 +1,7 @@
 # Insurance-PDF-Search
 
 ### Data Preparation
+
 Create a file named '.env' and store your OpenAI API key and MongoDB connection string in it. A sample has been provided in '.envsample'. Follow this format:
 
 ```bash
@@ -22,6 +23,7 @@ In MongoDB Atlas create a databse called "demo_rag_insurance" and a collection c
   ]
 }
 ```
+
 ```json
 {
   "fields": [
@@ -34,9 +36,10 @@ In MongoDB Atlas create a databse called "demo_rag_insurance" and a collection c
   ]
 }
 ```
+
 run
 
-``` bash  
+```bash
 pip install -r requirements.txt
 ```
 
@@ -53,15 +56,39 @@ python sddb.py --query "What is a Certificate of Insurance?
 python sddb.py --query "what strategy should an insurer first determine?"
 ```
 
-
 and now, launch the backend
 
 ```bash
 python3 -m uvicorn main:app --reload
 ```
+
 move to the frontend folder and run the frontend
 
 ```bash
 npm install
 npm start
+```
+
+### Build the Application with Docker
+
+To build the Docker images and start the services, run the following command:
+
+```
+make build
+```
+
+### Stopping the Application
+
+To stop all running services, use the command:
+
+```
+make stop
+```
+
+### Cleaning Up
+
+To remove all images and containers associated with the application, execute:
+
+```
+make clean
 ```

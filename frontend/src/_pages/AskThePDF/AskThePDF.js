@@ -5,7 +5,7 @@ import axios from "axios";
 const AskThePDF = () => {
   const [query, setQuery] = useState("");
   const [answer, setAnswer] = useState("");
-  const [docs, setDocs] = useState("");
+  const [docs, setDocs] = useState([]);
 
   const handleChange = (event) => {
     setQuery(event.target.value);
@@ -13,7 +13,9 @@ const AskThePDF = () => {
 
   const handleAsk = async () => {
     console.log("Asking Your PDF:", query);
-    const apiUrl = "http://127.0.0.1:8000/querythepdf";
+    const API_BASE_IP = "localhost";
+    const PORT = "9101";
+    const apiUrl = `http://${API_BASE_IP}:${PORT}/querythepdf`;
 
     try {
       const response = await axios.post(
@@ -29,20 +31,13 @@ const AskThePDF = () => {
       console.log("Answer:", response.data);
       setAnswer(response.data.answer);
       setDocs(response.data.supporting_docs);
-
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
-  console.log((docs.length > 0 ? JSON.stringify(docs[0].metadata) : ""));
-
-
-
   const handleSuggestionOne = () => {
-    setQuery(
-      "What is a certificate of Insurance?"
-    );
+    setQuery("What is a certificate of Insurance?");
   };
 
   const handleSuggestionTwo = () => {
@@ -50,8 +45,6 @@ const AskThePDF = () => {
       "For adverse weather related claims, what is the average loss amount?"
     );
   };
-
-
 
   return (
     <div className={styles.content}>
@@ -72,14 +65,15 @@ const AskThePDF = () => {
             <p>Suggested Questions:</p>
 
             <button className={styles.suggestion} onClick={handleSuggestionOne}>
-                What is a certificate of Insurance?
+              What is a certificate of Insurance?
             </button>
             <button className={styles.suggestion} onClick={handleSuggestionTwo}>
-              For adverse weather related claims, what is the average loss amount?
+              For adverse weather related claims, what is the average loss
+              amount?
             </button>
           </div>
         </div>
-        <div >{answer && <p className={styles.answer}>{answer}</p>}</div>
+        <div>{answer && <p className={styles.answer}>{answer}</p>}</div>
       </div>
       <div className={styles.references}>
         <h2>Supporting Documentation</h2>
@@ -88,19 +82,12 @@ const AskThePDF = () => {
           <div>
             {docs.map((doc, index) => (
               <div className={styles.referenceCards} key={index}>
-
                 <div className={styles.imgSection}>
-
                   {/* <img src={doc.image} alt="Supporting image"/> */}
                   <img src={`data:image/png;base64,${doc.image}`} alt="Image" />
-
                 </div>
-
-
               </div>
             ))}
-
-
           </div>
         )}
       </div>

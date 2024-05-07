@@ -13,7 +13,9 @@ const AskLeafy = () => {
 
   const handleAsk = async () => {
     console.log("Asking Leafy:", question);
-    const apiUrl = "http://127.0.0.1:8000/askTheLlm";
+    const API_BASE_IP = "localhost";
+    const PORT = "9101";
+    const apiUrl = `http://${API_BASE_IP}:${PORT}/askTheLlm`;
 
     try {
       const response = await axios.post(
@@ -29,15 +31,12 @@ const AskLeafy = () => {
       console.log("Answer:", response.data);
       setAnswer(response.data.result);
       setDocs(response.data.similar_docs);
-
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
-  console.log((docs.length > 0 ? JSON.stringify(docs[0].metadata) : ""));
-
-
+  console.log(docs.length > 0 ? JSON.stringify(docs[0].metadata) : "");
 
   const handleSuggestionOne = () => {
     setQuestion(
@@ -50,8 +49,6 @@ const AskLeafy = () => {
       "For adverse weather related claims, what is the average loss amount?"
     );
   };
-
-
 
   return (
     <div className={styles.content}>
@@ -75,11 +72,12 @@ const AskLeafy = () => {
               Show me claims related to tire damage and summarise the coverages
             </button>
             <button className={styles.suggestion} onClick={handleSuggestionTwo}>
-              For adverse weather related claims, what is the average loss amount?
+              For adverse weather related claims, what is the average loss
+              amount?
             </button>
           </div>
         </div>
-        <div >{answer && <p className={styles.answer}>{answer}</p>}</div>
+        <div>{answer && <p className={styles.answer}>{answer}</p>}</div>
       </div>
       <div className={styles.references}>
         <h2>References</h2>
@@ -88,28 +86,34 @@ const AskLeafy = () => {
           <div>
             {docs.map((doc, index) => (
               <div className={styles.referenceCards} key={index}>
-
                 <div className={styles.imgSection}>
-
-                  <img src={`/photos/${doc.metadata.photo}`} alt="Claim photo"/>
-
+                  <img
+                    src={`/photos/${doc.metadata.photo}`}
+                    alt="Claim photo"
+                  />
                 </div>
 
                 <div className={styles.contentSection}>
                   <div className={styles.upperSection}>
                     <div className={styles.fieldWrapper}>
                       <p className={styles.fieldTitle}>Customer ID:</p>
-                      <p className={styles.fieldContent}>{doc.metadata.customerID}</p>
+                      <p className={styles.fieldContent}>
+                        {doc.metadata.customerID}
+                      </p>
                     </div>
 
                     <div className={styles.fieldWrapper}>
                       <p className={styles.fieldTitle}>Claim Date:</p>
-                      <p className={styles.fieldContent}>{doc.metadata.claimFNOLDate}</p>
+                      <p className={styles.fieldContent}>
+                        {doc.metadata.claimFNOLDate}
+                      </p>
                     </div>
 
                     <div className={styles.fieldWrapper}>
                       <p className={styles.fieldTitle}>Loss Amount:</p>
-                      <p className={styles.lossAmount}>${doc.metadata.totalLossAmount}</p>
+                      <p className={styles.lossAmount}>
+                        ${doc.metadata.totalLossAmount}
+                      </p>
                     </div>
                   </div>
 
@@ -118,11 +122,8 @@ const AskLeafy = () => {
                     <p className={styles.fieldContent}>{doc.page_content}</p>
                   </div>
                 </div>
-
               </div>
             ))}
-
-
           </div>
         )}
       </div>
