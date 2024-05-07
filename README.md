@@ -1,13 +1,51 @@
 # Insurance-PDF-Search
 
-### Data Preparation
+### Add environment variables
 
-Create a file named '.env' and store your OpenAI API key and MongoDB connection string in it. A sample has been provided in '.envsample'. Follow this format:
+> **_Note:_** Create a .env file within the backend directory.
 
 ```bash
-OPENAI_API_KEY=<your key>
-MONGODB_URI=mongodb+srv://user:pass@cluster/db
+MONGODB_URI=
+ARTIFACT_STORE=data/guidlines/artifacts
+IMAGES_FOLDER=data/guidlines/images
+USE_OPENAI=TRUE
+TITLE="SuperDuperDB / Insurance Guidlines: AI Search & RAG Chat (OpenAI)"
+OPENAI_API_KEY=
 ```
+
+### Generate a venv for the Backend
+
+Change directory:
+
+```
+cd backend
+```
+
+Create virtual environment in Python:
+
+```
+python3 -m venv virtualBack
+```
+
+Activate Virtual environment:
+
+```
+source virtualBack/bin/activate
+```
+
+Install Python dependencies:
+
+```
+pip install -r requirements.txt
+```
+
+Start the server:
+
+```
+python3 -m uvicorn main:app --reload
+```
+
+### Data Preparation
 
 In MongoDB Atlas create a databse called "demo_rag_insurance" and a collection called "claims_final", import the dataset "demo_rag_insurance.claims.json" into the collection. You have to create two Vector Search Indexes, one for "claimDescriptionEmbedding" called "vector_index_claim_description" and one for "photoEmbedding" called "default":
 
@@ -91,4 +129,8 @@ To remove all images and containers associated with the application, execute:
 
 ```
 make clean
+```
+
+```
+
 ```
