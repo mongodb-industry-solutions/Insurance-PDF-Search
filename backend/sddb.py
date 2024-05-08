@@ -215,7 +215,7 @@ def add_llm_model(db, use_openai=False):
     # Add the llm instance
     db.add(llm)
 
-
+""" 
 def qa(db, query, vector_search_top_k=5):
     logging.info(f"QA query: {query}")
     collection = Collection(COLLECTION_NAME_CHUNK)
@@ -223,6 +223,33 @@ def qa(db, query, vector_search_top_k=5):
         model_name=MODEL_IDENTIFIER_LLM,
         input=query,
         context_select=collection.like(
+            Document({CHUNK_OUTPUT_KEY: query}),
+            vector_index=VECTOR_INDEX_IDENTIFIER,
+            n=vector_search_top_k,
+        ).find({}),
+        context_key=f"{CHUNK_OUTPUT_KEY}.0.txt",
+    )
+    if out:
+        out = sorted(out, key=lambda x: x.content["score"], reverse=True)
+
+    return output, out """
+
+def qa(db, query, vector_search_top_k=5):
+    logging.info(f"QA query: {query}")
+    collection = Collection(COLLECTION_NAME_CHUNK)
+    filename = "risk_management_guidelines_insurance_core_actitities copy.pdf"
+    field_to_filter = "_outputs.elements.chunk.0.source_elements[0].metadata.filename"
+    
+    filtered_collection = collection.filter_results({field_to_filter: filename})
+    
+    print(filtered_collection)
+    print("sonoqua")
+    
+    output, out = db.predict(
+        model_name=MODEL_IDENTIFIER_LLM,
+        input=query,
+        context_select=collection.filter_results(filtered_collection)
+        .like(
             Document({CHUNK_OUTPUT_KEY: query}),
             vector_index=VECTOR_INDEX_IDENTIFIER,
             n=vector_search_top_k,
