@@ -236,19 +236,17 @@ def qa(db, query, vector_search_top_k=5):
 
 def qa(db, query, vector_search_top_k=5):
     logging.info(f"QA query: {query}")
-    collection = Collection(COLLECTION_NAME_CHUNK)
+    
     filename = "risk_management_guidelines_insurance_core_actitities copy.pdf"
-    field_to_filter = "_outputs.elements.chunk.0.source_elements[0].metadata.filename"
-    
-    filtered_collection = collection.filter_results({field_to_filter: filename})
-    
-    print(filtered_collection)
-    print("sonoqua")
+    field_to_filter = "_outputs.elements.chunk.0.source_elements.0.metadata.filename"
+
+    collection = Collection({field_to_filter : filename})
+    collection = Collection(COLLECTION_NAME_CHUNK)
     
     output, out = db.predict(
         model_name=MODEL_IDENTIFIER_LLM,
         input=query,
-        context_select=collection.filter_results(filtered_collection)
+        context_select=collection
         .like(
             Document({CHUNK_OUTPUT_KEY: query}),
             vector_index=VECTOR_INDEX_IDENTIFIER,
@@ -260,84 +258,6 @@ def qa(db, query, vector_search_top_k=5):
         out = sorted(out, key=lambda x: x.content["score"], reverse=True)
     return output, out
 
-
-def generate_questions_from_db(n=20):
-    # TODO: Generate questions for showing in the frontend
-    db = init_db()
-    datas = []
-
-    llm = db.load("model", MODEL_IDENTIFIER_LLM)
-    chunks = list(
-        db.execute(
-            Collection(COLLECTION_NAME_CHUNK).find({}, {"_id": 1, CHUNK_OUTPUT_KEY: 1})
-        )
-    )
-    generate_template = """
-Based on the information provided, please formulate one question related to the document excerpt. Answer in JSON format.
-
-**Context**:
-{%s}
-
-Using the information above, generate your questions. Your question can be one of the following types: What, Why, When, Where, Who, How. Please respond in the following format:
-
-```json
-{
-  \"question_type\": \"Type of question, e.g., 'What'\",
-  \"question\": \"Your question \",
-}
-```
-"""
-    # reset the prompt function
-    llm.prompt_func = lambda x: generate_template % x
-    datas = []
-    import random
-
-    for chunk in chunks:
-        text = chunk.outputs("elements", "chunk")["txt"]
-        id_ = chunk["_id"]
-        datas.append({"id": id_, "text": text})
-
-    random.shuffle(datas)
-    questions = []
-    for data in datas[: n * 5]:
-        text = data["text"]
-        try:
-            result = llm.predict(text)
-            print(result)
-            json_result = eval(result)
-            # keep the id
-            questions.append(
-                {
-                    "id": str(data["id"]),
-                    "question": json_result["question"],
-                }
-            )
-        except Exception as e:
-            print(e)
-            continue
-
-        if len(questions) >= n:
-            break
-
-    for q in questions:
-        print(q["question"])
-
-    question_path = os.environ.get("CANDIDATE_QUESTIONS", "questions.txt")
-    print(f"save question list to {question_path}")
-    with open(question_path, "w") as f:
-        for q in questions:
-            f.write(q["question"] + "\n")
-
-    return questions
-
-
-def load_questions():
-    question_path = os.environ.get("CANDIDATE_QUESTIONS", "questions.txt")
-    if not os.path.exists(question_path):
-        return []
-    with open(question_path, "r") as f:
-        questions = f.readlines()
-    return questions
 
 
 def setup_db():
@@ -385,8 +305,6 @@ def querydb(query):
 def main(init, questions_num, query):
     if init:
         setup_db()
-    if questions_num:
-        generate_questions_from_db(n=questions_num)
     if query:
         querydb(query)
 
