@@ -10,7 +10,7 @@
 }
 
 .chat {
-    flex: 1;
+ 
     /* Each div takes up equal space */
     border-right: 1px solid #ccc;
     /* Vertical line between the divs */
@@ -133,15 +133,9 @@
     padding: 15px;
     margin-bottom: 10px;
     display: flex;
+    width: max-content;
 }
 
-.referenceCards {
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 10px;
-    display: flex;
-    background-color: white;
-}
 
 .imgSection {
     margin-left: 0px;
@@ -149,8 +143,9 @@
 }
 
 .imgSection img {
-    width: 600px;
-    /* Force images to have 100% width */
+    margin: 0px;
+    padding: 0px;
+    width: 700px;
     height: auto;
     /* Fixed height */
 }

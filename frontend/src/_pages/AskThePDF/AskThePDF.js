@@ -14,17 +14,15 @@ const AskThePDF = () => {
   const maria = {
     photo: "/jane.png",
     name: "Maria Ramirez",
-    customerId: "123456",
-    location: "Barcelona, Spain",
-    documents: "cataluna_policy.pdf",
+    Country: "Barcelona, Spain",
+    guidelines: "cataluna_policy.pdf",
   };
 
   const peter = {
     photo: "/rob.png",
     name: "Peter Green",
-    customerId: "789012",
-    location: "New York, USA",
-    documents: "nyc_guidelines.pdf",
+    Country: "New York, USA",
+    guidelines: "nyc_guidelines.pdf",
   };
 
   //Change these two functions once we have the backend //
@@ -164,16 +162,12 @@ const AskThePDF = () => {
                 <p className={styles.fieldContent}>{selectedCustomer.name}</p>
               </div>
               <div className={styles.fieldWrapper}>
-                <p className={styles.fieldTitle}>Customer ID:</p>
-                <p className={styles.fieldContent}>{selectedCustomer.customerId}</p>
-              </div>
-              <div className={styles.fieldWrapper}>
                 <p className={styles.fieldTitle}>Location:</p>
-                <p className={styles.fieldContent}>{selectedCustomer.location}</p>
+                <p className={styles.fieldContent}>{selectedCustomer.Country}</p>
               </div>
               <div className={styles.fieldWrapper}>
                 <p className={styles.fieldTitle}>Documents:</p>
-                <p className={styles.fieldContent}>{selectedCustomer.documents}</p>
+                <p className={styles.fieldContent}>{selectedCustomer.guidelines}</p>
               </div>
             </div>
           </div>
