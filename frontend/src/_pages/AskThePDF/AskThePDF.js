@@ -20,7 +20,7 @@ const AskThePDF = () => {
 
   const peter = {
     photo: "/rob.png",
-    name: "Pedro Green",
+    name: "Peter Green",
     Country: "New York, USA",
     guidelines: "nyc_guidelines.pdf",
   };
@@ -104,7 +104,7 @@ const AskThePDF = () => {
               <div className={styles.customerContent}>
                 <img src="/rob.png" alt="Peter" className={styles.customerImage} />
                 <div>
-                  <strong>Pedro Green</strong>
+                  <strong>Peter Green</strong>
                   <br />
                   New York, USA
                 </div>
@@ -147,7 +147,7 @@ const AskThePDF = () => {
       </div>
 
       <div className={styles.references}>
-        <h2>References</h2>
+        <h2>Reference docs</h2>
 
         {customerSelected && ( // Render customerInfo only if a customer is selected
           <div className={styles.customerInfo}>
