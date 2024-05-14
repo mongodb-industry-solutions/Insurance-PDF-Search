@@ -240,7 +240,7 @@ def qa(db, query, vector_search_top_k=5):
     filename = "risk_management_guidelines_insurance_core_actitities copy.pdf"
     field_to_filter = "_outputs.elements.chunk.0.source_elements.0.metadata.filename"
 
-    collection = Collection({field_to_filter : filename})
+    #collection = Collection({field_to_filter : filename})
     collection = Collection(COLLECTION_NAME_CHUNK)
     
     output, out = db.predict(
@@ -256,6 +256,10 @@ def qa(db, query, vector_search_top_k=5):
     )
     if out:
         out = sorted(out, key=lambda x: x.content["score"], reverse=True)
+
+    #out are the docs returned by the vector search
+    #output is the answer from the llm model: Document('A Certificate of Insurance is a document that provides evidence 
+    #of insurance coverage, including policy details, coverage limits, and the name of the insured party.')
     return output, out
 
 

@@ -20,7 +20,7 @@ const AskThePDF = () => {
 
   const peter = {
     photo: "/rob.png",
-    name: "Peter Green",
+    name: "Pedro Green",
     Country: "New York, USA",
     guidelines: "nyc_guidelines.pdf",
   };

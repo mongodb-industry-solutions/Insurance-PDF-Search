@@ -2,7 +2,7 @@
 .populate_embeddings.py
 /FastAPI
 /frontend/node_modules
-
+/backend/superdupertest.ipynb
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
