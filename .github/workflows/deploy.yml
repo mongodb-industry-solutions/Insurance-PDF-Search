@@ -25,6 +25,6 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
           cd /home/ec2-user/Insurance-PDF-Search
           sudo make clean
-          git pull origin main
+          git pull
           sudo make build
           EOF
