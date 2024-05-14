@@ -104,7 +104,7 @@ const AskThePDF = () => {
               <div className={styles.customerContent}>
                 <img src="/rob.png" alt="Peter" className={styles.customerImage} />
                 <div>
-                  <strong>Peter Green</strong>
+                  <strong>Pedro Green</strong>
                   <br />
                   New York, USA
                 </div>
