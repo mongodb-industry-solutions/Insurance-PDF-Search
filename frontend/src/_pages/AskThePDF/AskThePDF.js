@@ -9,7 +9,6 @@ const AskThePDF = () => {
   const [customerSelected, setCustomerSelected] = useState(false); // Track if a customer is selected
   const [selectedCustomer, setSelectedCustomer] = useState(null); // Track selected customer object
 
-
   // Customer objects for Maria and Peter -> to be modified when we have the collection
   const maria = {
     photo: "/jane.png",
@@ -30,14 +29,12 @@ const AskThePDF = () => {
     console.log("Maria");
     setCustomerSelected(true);
     setSelectedCustomer(maria);
-
   };
 
   const handlePeterClick = () => {
     console.log("Peter");
     setCustomerSelected(true);
     setSelectedCustomer(peter);
-
   };
 
   ////
@@ -48,8 +45,8 @@ const AskThePDF = () => {
 
   const handleAsk = async () => {
     console.log("Asking Your PDF:", query);
-    const API_BASE_IP = "localhost";
-    const PORT = "8000";
+    const API_BASE_IP = process.env.REACT_APP_BASE_URL;
+    const PORT = process.env.REACT_APP_PORT_URL;
     const apiUrl = `http://${API_BASE_IP}:${PORT}/querythepdf`;
 
     try {
@@ -84,14 +81,16 @@ const AskThePDF = () => {
   return (
     <div className={styles.content}>
       <div className={styles.chat}>
-
         <div className={styles.selectCustomerSection}>
-
           <p className={styles.selectText}>Select a Customer</p>
           <div>
             <button className={styles.customerBtn} onClick={handleMariaClick}>
               <div className={styles.customerContent}>
-                <img src="/jane.png" alt="Maria" className={styles.customerImage} />
+                <img
+                  src="/jane.png"
+                  alt="Maria"
+                  className={styles.customerImage}
+                />
                 <div>
                   <strong>Maria Ramirez</strong>
                   <br />
@@ -102,7 +101,11 @@ const AskThePDF = () => {
 
             <button className={styles.customerBtn} onClick={handlePeterClick}>
               <div className={styles.customerContent}>
-                <img src="/rob.png" alt="Peter" className={styles.customerImage} />
+                <img
+                  src="/rob.png"
+                  alt="Peter"
+                  className={styles.customerImage}
+                />
                 <div>
                   <strong>Peter Green</strong>
                   <br />
@@ -114,7 +117,6 @@ const AskThePDF = () => {
         </div>
 
         {customerSelected && ( // Render askSection only if a customer is selected
-
           <div className={styles.askSection}>
             <h2>Ask the PDF</h2>
             <div className={styles.question}>
@@ -131,10 +133,16 @@ const AskThePDF = () => {
               <div className={styles.suggestedQuestions}>
                 <p>Suggested Questions:</p>
 
-                <button className={styles.suggestion} onClick={handleSuggestionOne}>
+                <button
+                  className={styles.suggestion}
+                  onClick={handleSuggestionOne}
+                >
                   What is a certificate of Insurance?
                 </button>
-                <button className={styles.suggestion} onClick={handleSuggestionTwo}>
+                <button
+                  className={styles.suggestion}
+                  onClick={handleSuggestionTwo}
+                >
                   For adverse weather related claims, what is the average loss
                   amount?
                 </button>
@@ -143,7 +151,6 @@ const AskThePDF = () => {
             <div>{answer && <p className={styles.answer}>{answer}</p>}</div>
           </div>
         )}
-
       </div>
 
       <div className={styles.references}>
@@ -151,9 +158,12 @@ const AskThePDF = () => {
 
         {customerSelected && ( // Render customerInfo only if a customer is selected
           <div className={styles.customerInfo}>
-
             <div className={styles.customerPhoto}>
-              <img src={selectedCustomer.photo} alt="Customer Photo" className={styles.customerPhoto} />
+              <img
+                src={selectedCustomer.photo}
+                alt="Customer Photo"
+                className={styles.customerPhoto}
+              />
             </div>
 
             <div className={styles.upperSection}>
@@ -163,11 +173,15 @@ const AskThePDF = () => {
               </div>
               <div className={styles.fieldWrapper}>
                 <p className={styles.fieldTitle}>Location:</p>
-                <p className={styles.fieldContent}>{selectedCustomer.Country}</p>
+                <p className={styles.fieldContent}>
+                  {selectedCustomer.Country}
+                </p>
               </div>
               <div className={styles.fieldWrapper}>
                 <p className={styles.fieldTitle}>Documents:</p>
-                <p className={styles.fieldContent}>{selectedCustomer.guidelines}</p>
+                <p className={styles.fieldContent}>
+                  {selectedCustomer.guidelines}
+                </p>
               </div>
             </div>
           </div>

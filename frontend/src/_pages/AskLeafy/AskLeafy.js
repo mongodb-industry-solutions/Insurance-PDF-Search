@@ -13,8 +13,8 @@ const AskLeafy = () => {
 
   const handleAsk = async () => {
     console.log("Asking Leafy:", question);
-    const API_BASE_IP = "localhost";
-    const PORT = "8000";
+    const API_BASE_IP = process.env.REACT_APP_BASE_URL;
+    const PORT = process.env.REACT_APP_PORT_URL;
     const apiUrl = `http://${API_BASE_IP}:${PORT}/askTheLlm`;
 
     try {
