@@ -3,6 +3,7 @@
 /FastAPI
 /frontend/node_modules
 /backend/superdupertest.ipynb
+/backend/virtualBack
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
