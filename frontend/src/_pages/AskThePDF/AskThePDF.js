@@ -154,7 +154,7 @@ const AskThePDF = () => {
       </div>
 
       <div className={styles.references}>
-        <h2>Reference docs</h2>
+        <h2>Reference documents</h2>
 
         {customerSelected && ( // Render customerInfo only if a customer is selected
           <div className={styles.customerInfo}>
