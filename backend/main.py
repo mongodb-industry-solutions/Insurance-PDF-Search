@@ -63,6 +63,11 @@ async def find_similar_images(request: Request):
 async def query_db(request: Request):
     data = await request.json()
     query = data.get("query")
+    guidelines = data.get("guidelines")
+
+    # Log the guidelines file name
+    print("Using the file:", guidelines)
+
     output, out = qa(db, query, vector_search_top_k=5)
     supporting_docs = []
     for text, img in get_related_merged_documents(out, output.content):

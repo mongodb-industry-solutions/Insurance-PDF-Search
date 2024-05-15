@@ -9,26 +9,26 @@ const AskThePDF = () => {
   const [customerSelected, setCustomerSelected] = useState(false); // Track if a customer is selected
   const [selectedCustomer, setSelectedCustomer] = useState(null); // Track selected customer object
 
-  // Customer objects for Maria and Peter -> to be modified when we have the collection
-  const maria = {
-    photo: "/jane.png",
-    name: "Maria Ramirez",
-    Country: "Barcelona, Spain",
-    guidelines: "cataluna_policy.pdf",
+  // Customer objects for Ryan and Peter -> to be modified when we have the collection
+  const ryan = {
+    photo: "/eddie.png",
+    name: "Ryan Tan",
+    Country: "Singapore, SG",
+    guidelines: "cca_procurementcouncil_insurancerequirementsincontracts.pdf",
   };
 
   const peter = {
     photo: "/rob.png",
     name: "Peter Green",
     Country: "New York, USA",
-    guidelines: "nyc_guidelines.pdf",
+    guidelines: "risk_management_guidelines_insurance_core_actitities copy.pdf",
   };
 
   //Change these two functions once we have the backend //
-  const handleMariaClick = () => {
-    console.log("Maria");
+  const handleRyanClick = () => {
+    console.log("Ryan");
     setCustomerSelected(true);
-    setSelectedCustomer(maria);
+    setSelectedCustomer(ryan);
   };
 
   const handlePeterClick = () => {
@@ -44,7 +44,12 @@ const AskThePDF = () => {
   };
 
   const handleAsk = async () => {
+    if (!selectedCustomer) return;
+    const guidelines = selectedCustomer.guidelines;
+
     console.log("Asking Your PDF:", query);
+    console.log("Using the file:", guidelines);
+
     const API_BASE_IP = process.env.REACT_APP_BASE_URL;
     const PORT = process.env.REACT_APP_PORT_URL;
     const apiUrl = `http://${API_BASE_IP}:${PORT}/querythepdf`;
@@ -52,7 +57,7 @@ const AskThePDF = () => {
     try {
       const response = await axios.post(
         apiUrl,
-        { query },
+        { query, guidelines },
         {
           headers: {
             "Content-Type": "application/json",
@@ -84,17 +89,17 @@ const AskThePDF = () => {
         <div className={styles.selectCustomerSection}>
           <p className={styles.selectText}>Select a Customer</p>
           <div>
-            <button className={styles.customerBtn} onClick={handleMariaClick}>
+            <button className={styles.customerBtn} onClick={handleRyanClick}>
               <div className={styles.customerContent}>
                 <img
-                  src="/jane.png"
-                  alt="Maria"
+                  src="/eddie.png"
+                  alt="Ryan"
                   className={styles.customerImage}
                 />
                 <div>
-                  <strong>Maria Ramirez</strong>
+                  <strong>Ryan Tan</strong>
                   <br />
-                  Barcelona, Spain
+                  Singapore, SG
                 </div>
               </div>
             </button>
@@ -180,7 +185,7 @@ const AskThePDF = () => {
               <div className={styles.fieldWrapper}>
                 <p className={styles.fieldTitle}>Documents:</p>
                 <p className={styles.fieldContent}>
-                  {selectedCustomer.guidelines}
+                  {selectedCustomer.guidelines.slice(0, 20) + '...'}
                 </p>
               </div>
             </div>
