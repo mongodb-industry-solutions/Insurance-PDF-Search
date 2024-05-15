@@ -23,7 +23,7 @@ jobs:
       - name: Connect to EC2 and deploy
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-          cd /home/ec2-user/Insurance-PDF-Search
+          cd /home/ec2-user/Insurance/Insurance-PDF-Search
           sudo make clean
           git pull
           sudo make build
