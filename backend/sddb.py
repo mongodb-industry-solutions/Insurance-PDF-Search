@@ -18,6 +18,7 @@ from superduperdb import logging
 from superduperdb.base.artifact import Artifact
 from superduperdb.ext.openai import OpenAIEmbedding
 from utils import get_chunks, get_related_merged_documents
+from copy import copy
 
 load_dotenv()
 
@@ -215,9 +216,9 @@ def add_llm_model(db, use_openai=False):
     # Add the llm instance
     db.add(llm)
 
-""" 
-def qa(db, query, vector_search_top_k=5):
-    logging.info(f"QA query: {query}")
+def qa(db, query, filename, vector_search_top_k=5):
+    
+    """logging.info(f"QA query: {query}")
     collection = Collection(COLLECTION_NAME_CHUNK)
     output, out = db.predict(
         model_name=MODEL_IDENTIFIER_LLM,
@@ -232,37 +233,61 @@ def qa(db, query, vector_search_top_k=5):
     if out:
         out = sorted(out, key=lambda x: x.content["score"], reverse=True)
 
-    return output, out """
-
-def qa(db, query, vector_search_top_k=5):
-    logging.info(f"QA query: {query}")
+    for doc in out:
+        print(doc.content)"""
     
-    filename = "risk_management_guidelines_insurance_core_actitities copy.pdf"
-    field_to_filter = "_outputs.elements.chunk.0.source_elements.0.metadata.filename"
+    from openai import OpenAI
+    from ask_llm import ask_openai
+    client = OpenAI()
+    from pymongo import MongoClient
+    mongo_uri = os.getenv("MONGODB_URI")
+    CONNECTION_STRING = str(mongo_uri)
+    DB_NAME = "insurance_pdf_search"
+    COLLECTION_NAME = "_outputs.elements.chunk"
+    INDEX_NAME = "vector_index"
+    MongoClient = MongoClient(CONNECTION_STRING)
+    collection = MongoClient[DB_NAME][COLLECTION_NAME]
+    #filename = 'risk_management_guidelines_insurance_core_actitities copy.pdf'
 
-    #collection = Collection({field_to_filter : filename})
-    collection = Collection(COLLECTION_NAME_CHUNK)
+
+    query_embedding = client.embeddings.create(input = [query], model="text-embedding-ada-002").data[0].embedding
+
+    vector_query = [
+        {
+            "$vectorSearch": {  
+                'index': INDEX_NAME,
+                'path': "_outputs.elements.text-embedding-ada-002.0",
+                'queryVector': query_embedding,
+                'numCandidates': vector_search_top_k,
+                'limit': vector_search_top_k,
+                'filter': {'_outputs.elements.chunk.0.source_elements.metadata.filename': filename}
+            }
+        },
+        {
+            "$project": {
+                "_outputs.elements.text-embedding-ada-002.0": 0,
+                "score": { "$meta": "vectorSearchScore" }
+            }
+        }
+    ]
+
+    out = collection.aggregate(vector_query)
+     
+    out = list(out)        
+    context = []
+
+    for doc in out:
+        context.append(doc["_outputs"]["elements"]["chunk"]['0']["txt"])
+        #del doc['_outputs']['elements']['text-embedding-ada-002']['0']
     
-    output, out = db.predict(
-        model_name=MODEL_IDENTIFIER_LLM,
-        input=query,
-        context_select=collection
-        .like(
-            Document({CHUNK_OUTPUT_KEY: query}),
-            vector_index=VECTOR_INDEX_IDENTIFIER,
-            n=vector_search_top_k,
-        ).find({}),
-        context_key=f"{CHUNK_OUTPUT_KEY}.0.txt",
-    )
-    if out:
-        out = sorted(out, key=lambda x: x.content["score"], reverse=True)
+    out = sorted(out, key=lambda x: x["score"], reverse=True)
+    output = ask_openai(query, context)
 
+    #print(output)
     #out are the docs returned by the vector search
     #output is the answer from the llm model: Document('A Certificate of Insurance is a document that provides evidence 
     #of insurance coverage, including policy details, coverage limits, and the name of the insured party.')
     return output, out
-
-
 
 def setup_db():
     init_db()
@@ -278,9 +303,10 @@ def querydb(query):
     db = init_db()
     output, out = qa(db, query, vector_search_top_k=5)
     print("#### Answer:")
-    print(output.content)
+    print(output)
     print("#### Related Documents:")
-    for text, img in get_related_merged_documents(out, output.content):
+    #for text, img in get_related_merged_documents(out, output.content):
+    for text, img in get_related_merged_documents(out, output):
         print(text)
         if img:
             print(img)

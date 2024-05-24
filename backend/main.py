@@ -68,14 +68,14 @@ async def query_db(request: Request):
     # Log the guidelines file name
     print("Using the file:", guidelines)
 
-    output, out = qa(db, query, vector_search_top_k=5)
+    output, out = qa(db, query, guidelines, vector_search_top_k=5)
     supporting_docs = []
-    for text, img in get_related_merged_documents(out, output.content):
+    for text, img in get_related_merged_documents(out, output):
         if img:
             #supporting_docs.append({"text": text, "image": FileResponse(img)})
             buffer = BytesIO()
             img.save(buffer, format="PNG")
             image_base64 = base64.b64encode(buffer.getvalue()).decode("utf-8")
             supporting_docs.append({"text": text, "image": image_base64})
-    toreturnobj = {"answer": output.content, "supporting_docs": supporting_docs}
+    toreturnobj = {"answer": output, "supporting_docs": supporting_docs}
     return toreturnobj

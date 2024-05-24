@@ -14,7 +14,7 @@ const AskThePDF = () => {
     photo: "/eddie.png",
     name: "Ryan Tan",
     Country: "Singapore, SG",
-    guidelines: "cca_procurementcouncil_insurancerequirementsincontracts.pdf",
+    guidelines: "guidlinesforinsurance.pdf",
   };
 
   const peter = {
@@ -185,7 +185,7 @@ const AskThePDF = () => {
               <div className={styles.fieldWrapper}>
                 <p className={styles.fieldTitle}>Documents:</p>
                 <p className={styles.fieldContent}>
-                  {selectedCustomer.guidelines.slice(0, 20) + '...'}
+                  {selectedCustomer.guidelines.slice(0, 20) + "..."}
                 </p>
               </div>
             </div>
