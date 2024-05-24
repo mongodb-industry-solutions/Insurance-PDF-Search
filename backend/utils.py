@@ -235,6 +235,7 @@ def get_related_merged_documents(contexts, match_text=None):
     image_folder = os.environ.get("IMAGES_FOLDER", None)
 
     page_elements, page2score = groupby_source_elements(contexts)
+    
     for page_number, source_elements in page_elements.items():
         if match_text:
             match_indexes = rematch([e["text"] for e in source_elements], match_text)
@@ -254,6 +255,7 @@ def get_related_merged_documents(contexts, match_text=None):
         text = (
             f"**file_name**: {file_name}\n\n**score**: {score}\n\n**text:**\n\n{text}"
         )
+        
         yield text, img
 
 
@@ -265,15 +267,17 @@ def groupby_source_elements(contexts):
 
     # Save the max score for each page
     page2score = {}
+    #chunk_data = contexts[0]["_outputs"]
     page_elements = defaultdict(list)
     for source in contexts:
-        chunk_data = source.outputs("elements", "chunk")
-        source_elements = chunk_data["source_elements"]
+        print(source)
+        chunk_data = source["_outputs"]["elements"]["chunk"]
+        source_elements = chunk_data["0"]["source_elements"]
         for element in source_elements:
             page_number = element["metadata"]["page_number"]
             page_elements[page_number].append(element)
 
-        page_number = chunk_data["source_elements"][0]["metadata"]["page_number"]
+        page_number = chunk_data["0"]["source_elements"][0]["metadata"]["page_number"]
         score = source["score"]
         page2score[page_number] = max(page2score.get(page_number, 0), score)
 
