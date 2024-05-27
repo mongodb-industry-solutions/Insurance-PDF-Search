@@ -1,0 +1,68 @@
+[{
+  "_id": {
+    "$oid": "663a4fff0c5d4d56323d8ec9"
+  },
+  "identifier": "89767215-e5e9-41af-89fa-e863db5a0f91",
+  "time": {
+    "$date": "2024-05-07T17:59:59.071Z"
+  },
+  "status": "success",
+  "args": [],
+  "kwargs": {
+    "ids": [
+      {
+        "$oid": "663a4ffe0c5d4d56323d8ec7"
+      },
+      {
+        "$oid": "663a4ffe0c5d4d56323d8ec8"
+      }
+    ],
+    "query": {
+      "cls": "MongoCompoundSelect",
+      "dict": {
+        "table_or_collection": {
+          "cls": "Collection",
+          "dict": {
+            "identifier": "source"
+          },
+          "module": "superduperdb.backends.mongodb.query"
+        },
+        "pre_like": null,
+        "post_like": null,
+        "query_linker": {
+          "cls": "MongoQueryLinker",
+          "dict": {
+            "table_or_collection": {
+              "cls": "Collection",
+              "dict": {
+                "identifier": "source"
+              },
+              "module": "superduperdb.backends.mongodb.query"
+            },
+            "members": [
+              {
+                "cls": "Find",
+                "dict": {
+                  "name": "find",
+                  "type": "query",
+                  "args": [
+                    {},
+                    {}
+                  ],
+                  "kwargs": {},
+                  "output_fields": null
+                },
+                "module": "superduperdb.backends.mongodb.query"
+              }
+            ]
+          },
+          "module": "superduperdb.backends.mongodb.query"
+        }
+      },
+      "module": "superduperdb.backends.mongodb.query"
+    }
+  },
+  "stdout": [],
+  "stderr": [],
+  "cls": "FunctionJob"
+}]

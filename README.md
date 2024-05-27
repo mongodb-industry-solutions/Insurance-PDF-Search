@@ -83,10 +83,29 @@ pip install -r requirements.txt
 
 #### Parse the pdfs and add model in database
 
+At this point you can either analyze and index the PDFs yourself running the script below, or simply create a new database called "insurance_pdf_search" and import all the collections contained in the folder "insurance_pdf_search_db". If you're indexing the PDFs yourself, once the script is done, import "customer.json" to your database (contained in the "insurance_pdf_search_db" folder).
+
 ```
 python3 sddb.py --init
 ```
+Add the vector index on the collection "_output.elements.chunk" and the field "_outputs.elements.text-embedding-ada-002.0":
 
+```json
+{
+  "fields": [
+    {
+      "numDimensions": 1536,
+      "path": "_outputs.elements.text-embedding-ada-002.0",
+      "similarity": "cosine",
+      "type": "vector"
+    },
+    {
+      "path": "_outputs.elements.chunk.0.source_elements.metadata.filename",
+      "type": "filter"
+    }
+  ]
+}
+```
 #### Ask your PDF Sample Queries
 
 ```
