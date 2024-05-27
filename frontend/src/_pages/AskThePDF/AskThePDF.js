@@ -14,14 +14,14 @@ const AskThePDF = () => {
     photo: "/eddie.png",
     name: "Ryan Tan",
     Country: "Singapore, SG",
-    guidelines: "guidlinesforinsurance.pdf",
+    guidelines: "risk_management_guidelines_insurance_core_actitities copy.pdf",
   };
 
   const peter = {
     photo: "/rob.png",
     name: "Peter Green",
     Country: "New York, USA",
-    guidelines: "risk_management_guidelines_insurance_core_actitities copy.pdf",
+    guidelines: "guidlinesforinsurance.pdf",
   };
 
   //Change these two functions once we have the backend //
@@ -74,12 +74,12 @@ const AskThePDF = () => {
   };
 
   const handleSuggestionOne = () => {
-    setQuery("What is a certificate of Insurance?");
+    setQuery("What forms are required for a certificate of insurance?");
   };
 
   const handleSuggestionTwo = () => {
     setQuery(
-      "For adverse weather related claims, what is the average loss amount?"
+      "What are risk control measures associated with claim handling and case reserving?"
     );
   };
 
@@ -142,14 +142,13 @@ const AskThePDF = () => {
                   className={styles.suggestion}
                   onClick={handleSuggestionOne}
                 >
-                  What is a certificate of Insurance?
+                  What forms are required for a certificate of insurance?
                 </button>
                 <button
                   className={styles.suggestion}
                   onClick={handleSuggestionTwo}
                 >
-                  For adverse weather related claims, what is the average loss
-                  amount?
+                  What are risk control measures associated with claim handling and case reserving?
                 </button>
               </div>
             </div>
