@@ -8,9 +8,8 @@
 
 ### Step 0: Set Up MongoDB Database and Collection
 
-1. Log in to [MongoDB Atlas](https://account.mongodb.com/account/login) and create a new database named `demo_rag_insurance`.
-2. Inside this database, create a collection called `claims_final`.
-3. Import the dataset file `data/demo_rag_insurance.claims.json` into the `claims_final` collection.
+1. Log in to [MongoDB Atlas](https://account.mongodb.com/account/login) and create a new database named `insurance_pdf_rag`.
+2. Inside this database, create a collection called `default`.
 
 ### Step 1: Configure the Environment Variables for the backend
 
