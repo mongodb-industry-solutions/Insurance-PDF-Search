@@ -1,0 +1,54 @@
+.profile {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.05);
+  width: 200px;
+  cursor: pointer;
+}
+
+.additionalProfilesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  position: absolute;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.05);
+  padding: 10px;
+}
+
+.additionalProfilesContainer p {
+  font-size: 14px;
+}
+
+.additionalProfile {
+  margin-right: 20px;
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.imageContainer {
+  margin-right: 20px;
+}
+
+.image {
+  border-radius: 50%;
+}
+
+.details {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.role {
+  font-size: 16px;
+  color: #666;
+  padding-top: 5px;
+}

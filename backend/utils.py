@@ -1,119 +1,15 @@
 import os
-from logging import getLogger
+from superduper import Model, logging
+import shutil
 
-from unstructured.partition.pdf_image.pdfminer_utils import init_pdfminer
-
-
-logger = getLogger(__name__)
-
-
-def remove_sidebars(elements):
-    from unstructured.documents.elements import ElementType
-    from collections import defaultdict
-    import re
-
-    if not elements:
-        return elements
-    points_groups = defaultdict(list)
-    min_x = 99999999
-    max_x = 0
-    e2index = {e.id: i for i, e in enumerate(elements)}
-    for e in elements:
-        x_l = int(e.metadata.coordinates.points[0][0])
-        x_r = int(e.metadata.coordinates.points[2][0])
-        points_groups[(x_l, x_r)].append(e)
-        min_x = min(min_x, x_l)
-        max_x = max(max_x, x_r)
-    sidebars_elements = set()
-    for (x_l, x_r), es in points_groups.items():
-        first_id = e2index[es[0].id]
-        last_id = e2index[es[-1].id]
-        on_left = first_id == 0 and x_l == min_x
-        on_right = (last_id == len(elements) - 2) and x_r == max_x
-        loc_match = [on_left, on_right]
-        total_text = "".join(map(str, es))
-        condiction = [
-            any(loc_match),
-            len(es) >= 3,
-            re.findall("^[A-Z\s\d,]+$", total_text),
-        ]
-        if not all(condiction):
-            continue
-        sidebars_elements.update(map(lambda x: x.id, es))
-        if on_left:
-            check_page_num_e = elements[last_id + 1]
-        else:
-            check_page_num_e = elements[-1]
-        if (
-            check_page_num_e.category == ElementType.UNCATEGORIZED_TEXT
-            and check_page_num_e.text.strip().isalnum()
-        ):
-            sidebars_elements.add(check_page_num_e.id)
-
-    elements = [e for e in elements if e.id not in sidebars_elements]
-    return elements
-
-
-def remove_annotation(elements):
-    from collections import Counter
-    from unstructured.documents.elements import ElementType
-
-    page_num = max(e.metadata.page_number for e in elements)
-    un_texts_counter = Counter(
-        [e.text for e in elements if e.category == ElementType.UNCATEGORIZED_TEXT]
-    )
-    rm_text = set()
-    for text, count in un_texts_counter.items():
-        if count / page_num >= 0.5:
-            rm_text.add(text)
-    elements = [e for e in elements if e.text not in rm_text]
-    return elements
-
-
-def create_chunk_and_metadatas(page_elements, stride=3, window=10):
-    page_elements = remove_sidebars(page_elements)
-    for index, page_element in enumerate(page_elements):
-        page_element.metadata.num = index
-    datas = []
-    for i in range(0, len(page_elements), stride):
-        windown_elements = page_elements[i : i + window]
-        chunk = "\n".join([e.text for e in windown_elements])
-        source_elements = [e.to_dict() for e in windown_elements]
-        datas.append(
-            {
-                "txt": chunk,
-                "source_elements": source_elements,
-            }
-        )
-    return datas
-
-
-def get_chunks(elements):
-    from collections import defaultdict
-    from unstructured.documents.coordinates import RelativeCoordinateSystem
-
-    elements = remove_annotation(elements)
-
-    pages_elements = defaultdict(list)
-    for element in elements:
-        element.convert_coordinates_to_new_system(
-            RelativeCoordinateSystem(), in_place=True
-        )
-        pages_elements[element.metadata.page_number].append(element)
-
-    all_chunks_and_links = sum(
-        [
-            create_chunk_and_metadatas(page_elements)
-            for _, page_elements in pages_elements.items()
-        ],
-        [],
-    )
-    return all_chunks_and_links
-
+def get_file_path():
+    file_path = os.path.dirname(os.path.realpath(__file__))
+    logging.info(f"File Path: {file_path}")
+    return file_path
 
 def rematch(texts, answer, n=5):
-    texts_words = [set(t.split()) for t in texts]
-    answer_words = set(answer.split())
+    texts_words = [set(t.lower().split()) for t in texts]
+    answer_words = set(answer.lower().split())
     scores = [len(t & answer_words) / len(answer_words) for t in texts_words]
     max_score = max(scores)
     max_score_index = scores.index(max_score)
@@ -200,43 +96,38 @@ def merge_metadatas(metadatas):
     }
 
 
-def get_related_documents(contexts, match_text=None):
-    """
-    Convert contexts to a dataframe
-    """
-    image_folder = os.environ.get("IMAGES_FOLDER", None)
-    for source in contexts:
-        chunk_data = source.outputs("elements", "chunk")
-        source_elements = chunk_data["source_elements"]
-        if match_text:
-            match_indexes = rematch([e["text"] for e in source_elements], match_text)
-            if not match_indexes:
-                continue
-            source_elements = [source_elements[i] for i in match_indexes]
-        metadata = merge_metadatas([e["metadata"] for e in source_elements])
-        page_number = metadata["page_number"]
-        file_name = metadata["file_name"]
-        coordinates = metadata["coordinates"]
-        file_path = os.path.join(image_folder, file_name, f"{page_number}.jpg")
-        if os.path.exists(file_path):
-            img = draw_rectangle_and_display(file_path, coordinates)
-        else:
-            img = None
-        score = round(source["score"], 2)
-        text = f"**file_name**: {file_name}\n\n**score**: {score}\n\n**text:**\n\n{chunk_data['txt']}"
-        yield text, img
+def fetch_images(db, pdf_id, split_image_key):
+    image_folder = os.environ.get("IMAGES_FOLDER", ".cache/images")
+    image_folder = os.path.join(image_folder, str(pdf_id))
+    if os.path.exists(image_folder) and os.listdir(image_folder):
+        return
+
+    os.makedirs(image_folder, exist_ok=True)
+    table = db[split_image_key]
+    select = table.filter(table["_source"].isin([pdf_id]))
+    for doc in select.execute():
+        image_path = doc[split_image_key].unpack()
+        shutil.move(image_path, image_folder)
 
 
-def get_related_merged_documents(contexts, match_text=None):
+def get_related_merged_documents(
+    db,
+    contexts,
+    chunk_key,
+    split_image_key,
+    match_text=None,
+):
     """
     Convert contexts to a dataframe
     Will merge the same page
     """
-    image_folder = os.environ.get("IMAGES_FOLDER", None)
+    image_folder = os.environ.get("IMAGES_FOLDER", ".cache/images")
+    source_ids = [source["_source"] for source in contexts]
+    for source_id in source_ids:
+        fetch_images(db, source_id, split_image_key)
 
-    page_elements, page2score = groupby_source_elements(contexts)
-    
-    for page_number, source_elements in page_elements.items():
+    page_elements, page2score = groupby_source_elements(contexts, chunk_key)
+    for (pdf_id, page_number), source_elements in page_elements.items():
         if match_text:
             match_indexes = rematch([e["text"] for e in source_elements], match_text)
             if not match_indexes:
@@ -246,20 +137,19 @@ def get_related_merged_documents(contexts, match_text=None):
         metadata = merge_metadatas([e["metadata"] for e in source_elements])
         file_name = metadata["file_name"]
         coordinates = metadata["coordinates"]
-        file_path = os.path.join(image_folder, file_name, f"{page_number}.jpg")
+        file_path = os.path.join(image_folder, str(pdf_id), f"{page_number-1}.jpg")
         if os.path.exists(file_path):
             img = draw_rectangle_and_display(file_path, coordinates)
         else:
             img = None
-        score = round(page2score[page_number], 2)
+        score = round(page2score[(pdf_id, page_number)], 2)
         text = (
             f"**file_name**: {file_name}\n\n**score**: {score}\n\n**text:**\n\n{text}"
         )
-        
         yield text, img
 
 
-def groupby_source_elements(contexts):
+def groupby_source_elements(contexts, chunk_key):
     """
     Group pages for all contexts
     """
@@ -267,27 +157,24 @@ def groupby_source_elements(contexts):
 
     # Save the max score for each page
     page2score = {}
-    #chunk_data = contexts[0]["_outputs"]
     page_elements = defaultdict(list)
     for source in contexts:
-        print(source)
-        chunk_data = source["_outputs"]["elements"]["chunk"]
-        source_elements = chunk_data["0"]["source_elements"]
+        outputs = source[chunk_key]
+        source_elements = outputs["source_elements"]
+        pdf_id = source["_source"]
         for element in source_elements:
             page_number = element["metadata"]["page_number"]
-            page_elements[page_number].append(element)
+            page_elements[(pdf_id, page_number)].append(element)
 
-        page_number = chunk_data["0"]["source_elements"][0]["metadata"]["page_number"]
+        page_number = source_elements[0]["metadata"]["page_number"]
         score = source["score"]
-        page2score[page_number] = max(page2score.get(page_number, 0), score)
+        page2score[(pdf_id, page_number)] = max(page2score.get(page_number, 0), score)
 
     # Deduplicate elements in the page based on the num field
-    for page_number, elements in page_elements.items():
-        page_elements[page_number] = list(
-            {e["metadata"]["num"]: e for e in elements}.values()
-        )
+    for key, elements in page_elements.items():
+        page_elements[key] = list({e["metadata"]["num"]: e for e in elements}.values())
         # Sort elements by num
-        page_elements[page_number].sort(key=lambda e: e["metadata"]["num"])
+        page_elements[key].sort(key=lambda e: e["metadata"]["num"])
 
     return page_elements, page2score
 
@@ -328,7 +215,21 @@ def draw_rectangle_and_display(image_path, relative_coordinates, expand=0.005):
             try:
                 draw.rectangle(absolute_coordinates, outline="red", width=3)
             except Exception as e:
-                logger.warn(
+                logging.warn(
                     f"Failed to draw rectangle on image: {e}\nCoordinates: {absolute_coordinates}"
                 )
         return img
+
+
+class Processor(Model):
+    chunk_key: str
+    split_image_key: str
+
+    def predict(self, contexts, match_text=None):
+        return get_related_merged_documents(
+            db=self.db,
+            contexts=contexts,
+            chunk_key=self.chunk_key,
+            split_image_key=self.split_image_key,
+            match_text=match_text,
+        )
