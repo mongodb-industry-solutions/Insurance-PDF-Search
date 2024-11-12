@@ -19,7 +19,7 @@
 > **_Note:_** Create a .env file within the backend directory.
 
 ```bash
-MONGODB_URI="mongodb+srv://<REPLACE_USERNAME>:<REPLACE_PASSWORD>@ist-shared.n0kts.mongodb.net/insurance_pdf_rag"
+MONGODB_URI="mongodb+srv://<REPLACE_USERNAME>:<REPLACE_PASSWORD>@<REPLACE_CLUSTER_NAME>.mongodb.net/<REPLACE_DATABASE_NAME>"
 PDF_PATH="/data/pdfs"
 PDF_IMAGES="/data/pdf-images"
 ARTIFACT_STORE="/data/artifacts"
