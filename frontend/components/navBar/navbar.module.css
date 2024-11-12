@@ -1,0 +1,21 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.03);
+  z-index: 1000;
+}
+
+.logo {
+  margin-right: 100px;
+}
+
+.user {
+  margin-right: 30px;
+}

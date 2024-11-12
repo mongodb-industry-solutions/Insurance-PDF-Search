@@ -1,0 +1,69 @@
+# Byte-compiled files
+backend/__pycache__
+*.py[cod]
+
+# Virtual Environments
+backend/.venv
+backend/venv
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+eggs/
+.egg-info/
+*.egg
+*.egg-info/
+
+# Python-specific files
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter Notebook files
+.ipynb_checkpoints/
+
+# Test and coverage artifacts
+*.coverage
+.coverage.*
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+*.mo
+*.pot
+*.swp
+
+# IDE and editor-specific files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Node modules
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Build output
+.next/
+out/
+
+# Logs
+logs
+*.log
+
+# Temporary files
+tmp/
+temp/
+
+# Other files to ignore
+coverage/
+jest/
+*.tgz

@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "your-virtual-env"
+version = "0.1.0"
+description = "PDF RAG application for querying PDFs using Superduper"
+authors = ["Julian Boronat <julian.boronat@mongodb.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.11"
+python-dotenv = "^1.0.1"
+fastapi = "^0.115.4"
+uvicorn = "^0.32.0"
+boto3 = "^1.35.53"
+unstructured = {extras = ["pdf"], version = "^0.16.4"}
+botocore = "^1.35.53"
+tqdm = "^4.66.6"
+superduper-framework = "^0.4.2"
+superduper-mongodb = "^0.4.0"
+superduper-openai = "^0.4.0"
+ipython = "^8.29.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
