@@ -10,7 +10,7 @@ const AskThePDF = () => {
   const [docs, setDocs] = useState([]);
   const [customerSelected, setCustomerSelected] = useState(false); // Track if a customer is selected
   const [selectedCustomer, setSelectedCustomer] = useState(null); // Track selected customer object
-  const [loading, setLoading] = useState(false); // Loading state for Ask button
+  const [loading, setLoading] = useState(false);
 
   // Customer objects for Ryan and Peter -> to be modified when we have the collection
   const ryan = {
@@ -72,6 +72,8 @@ const AskThePDF = () => {
       setDocs(response.data.supporting_docs);
     } catch (error) {
       console.error("Error:", error);
+    } finally {
+      setLoading(false); // Reset loading state
     }
   };
 
@@ -139,9 +141,9 @@ const AskThePDF = () => {
                 onClick={handleAsk}
                 disabled={loading} // Disable button while loading
               >
-                {loading ? "Asking..." : "Ask"}
+                {loading ? <div className={styles.spinner}></div> : "Ask"}
               </button>
-              
+
               <div className={styles.suggestedQuestions}>
                 <p>Suggested Questions:</p>
 
