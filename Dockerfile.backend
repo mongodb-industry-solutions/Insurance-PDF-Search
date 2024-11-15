@@ -4,6 +4,9 @@ ENV GET_POETRY_IGNORE_DEPRECATION=1
 
 WORKDIR /
 
+# Update and install necessary dependecies
+RUN apt-get update && apt-get install ffmpeg libsm6 poppler-utils libxext6  -y
+
 # Poetry dependencies
 COPY /backend/pyproject.toml /backend/poetry.lock ./
 

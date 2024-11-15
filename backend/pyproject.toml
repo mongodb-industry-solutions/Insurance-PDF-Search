@@ -9,15 +9,11 @@ readme = "README.md"
 python = ">=3.10,<3.11"
 python-dotenv = "^1.0.1"
 fastapi = "^0.115.4"
-uvicorn = "^0.32.0"
-boto3 = "^1.35.53"
 unstructured = {extras = ["pdf"], version = "^0.16.4"}
-botocore = "^1.35.53"
-tqdm = "^4.66.6"
 superduper-framework = "^0.4.2"
 superduper-mongodb = "^0.4.0"
 superduper-openai = "^0.4.0"
-ipython = "^8.29.0"
+uvicorn = "^0.32.0"
 
 
 [build-system]
