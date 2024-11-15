@@ -10,6 +10,7 @@ const AskThePDF = () => {
   const [docs, setDocs] = useState([]);
   const [customerSelected, setCustomerSelected] = useState(false); // Track if a customer is selected
   const [selectedCustomer, setSelectedCustomer] = useState(null); // Track selected customer object
+  const [loading, setLoading] = useState(false); // Loading state for Ask button
 
   // Customer objects for Ryan and Peter -> to be modified when we have the collection
   const ryan = {
@@ -26,7 +27,6 @@ const AskThePDF = () => {
     guidelines: "guidlines_insurance_ny.pdf",
   };
 
-  //Change these two functions once we have the backend //
   const handleRyanClick = () => {
     console.log("Ryan");
     setCustomerSelected(true);
@@ -47,6 +47,8 @@ const AskThePDF = () => {
 
   const handleAsk = async () => {
     if (!selectedCustomer) return;
+
+    setLoading(true); // Start loading
     const guidelines = selectedCustomer.guidelines;
 
     console.log("Asking Your PDF:", query);
@@ -132,9 +134,14 @@ const AskThePDF = () => {
                 onChange={handleChange}
                 placeholder="Type your question here..."
               />
-              <button className={styles.askBtn} onClick={handleAsk}>
-                Ask
+              <button
+                className={styles.askBtn}
+                onClick={handleAsk}
+                disabled={loading} // Disable button while loading
+              >
+                {loading ? "Asking..." : "Ask"}
               </button>
+              
               <div className={styles.suggestedQuestions}>
                 <p>Suggested Questions:</p>
 
