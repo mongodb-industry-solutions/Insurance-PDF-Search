@@ -5,18 +5,9 @@ from unstructured.documents.elements import ElementType
 from unstructured.documents.coordinates import RelativeCoordinateSystem
 from unstructured.partition.pdf import partition_pdf
 
-from spdp import get_database
-
-from superduper.components.schema import FieldType
-from superduper import ObjectModel
-from superduper import logging
-
-COLLECTION_NAME = "source"
-
-# Build a chunks model and return chunk results with coordinate information.
 
 def remove_sidebars(elements):
-
+    """ Remove the sidebars from the elements. """
     if not elements:
         return elements
     points_groups = defaultdict(list)
@@ -60,7 +51,6 @@ def remove_sidebars(elements):
 
 
 def remove_annotation(elements):
-
     page_num = max(e.metadata.page_number for e in elements)
     un_texts_counter = Counter(
         [e.text for e in elements if e.category == ElementType.UNCATEGORIZED_TEXT]
@@ -73,7 +63,15 @@ def remove_annotation(elements):
     return elements
 
 
-def create_chunk_and_metadatas(page_elements, stride=2, window=5):
+def create_chunk_and_metadatas(page_elements, stride=2, window=5, max_length=2000):
+    """ Create the chunk and metadatas from the page elements. 
+    Args:
+    page_elements (List[Element]): List of elements in the page.
+    stride (int): Stride of the window.
+    
+    Returns:
+    List[Dict[str, Union[str, List[Dict[str, Any]]]]: List of chunks with the text and source elements
+    """
     page_elements = remove_sidebars(page_elements)
     for index, page_element in enumerate(page_elements):
         page_element.metadata.num = index
@@ -81,6 +79,9 @@ def create_chunk_and_metadatas(page_elements, stride=2, window=5):
     for i in range(0, len(page_elements), stride):
         windown_elements = page_elements[i : i + window]
         chunk = "\n".join([e.text for e in windown_elements])
+        # cohere.embed-english-v3 is limited to maxLength=2048
+        if len(chunk) > max_length:
+            chunk = chunk[:max_length]  # Truncate the chunk to the maximum length
         source_elements = [e.to_dict() for e in windown_elements]
         datas.append(
             {
@@ -92,6 +93,15 @@ def create_chunk_and_metadatas(page_elements, stride=2, window=5):
 
 # Build a chunks model and return chunk results with coordinate information.
 def get_chunks(pdf):
+    """
+    Get the chunks from the PDF file.
+
+    Args:
+    pdf (str): Path to the PDF file.
+
+    Returns:
+    List[Dict[str, Union[str, List[Dict[str, Any]]]]: List of chunks with the text and source elements
+    """
 
     elements = partition_pdf(pdf)
     elements = remove_annotation(elements)
@@ -111,4 +121,3 @@ def get_chunks(pdf):
         [],
     )
     return all_chunks_and_links
-
