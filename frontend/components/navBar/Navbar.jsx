@@ -23,7 +23,7 @@ const Navbar = () => {
               heading: "Instructions and Talk Track",
               content: [
                 {
-                  heading: "PDF Search",
+                  heading: "Why PDF Search for Insurance?",
                   body: "Retrieval-augmented generation (RAG) applications are a game changer for insurance companies, enabling them to harness the power of unstructured data while promoting accessibility and flexibility. Special attention goes to PDFs, which are ubiquitous yet difficult to search, leading claim adjusters and underwriters to spend hours reviewing contracts, claims, and guidelines in this common format. RAG for PDF search brings efficiency and accuracy to this historically cumbersome task. Now, users can simply type a question in natural language and the app will sift through the company data, provide an answer, summarize the content of the documents, and indicate the source of the information, including the page and paragraph where it was found.",
                 },
                 {
@@ -62,7 +62,7 @@ const Navbar = () => {
               heading: "Why MongoDB?",
               content: [
                 {
-                  heading: "Operational and Vector database combined",
+                  heading: "Operational and Vector Database Combined",
                   body: "MongoDB stores vectors alongside operational data, eliminating the need to having two separate solutions. Enabling features such as pre-filtering.",
                         
                 },
