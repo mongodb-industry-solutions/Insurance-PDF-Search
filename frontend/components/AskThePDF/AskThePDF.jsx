@@ -5,6 +5,8 @@ import styles from "./askThePDF.module.css";
 import axios from "axios";
 
 const AskThePDF = () => {
+  const industry = "insurance";
+  const demo_name = "pdf_search";
   const [query, setQuery] = useState("");
   const [answer, setAnswer] = useState("");
   const [docs, setDocs] = useState([]);
@@ -51,6 +53,8 @@ const AskThePDF = () => {
     setLoading(true); // Start loading
     const guidelines = selectedCustomer.guidelines;
 
+    console.log("Industry:", industry);
+    console.log("Demo name:", demo_name);
     console.log("Asking Your PDF:", query);
     console.log("Using the file:", guidelines);
 
@@ -59,7 +63,7 @@ const AskThePDF = () => {
     try {
       const response = await axios.post(
         apiUrl,
-        { query, guidelines },
+        { industry, demo_name, query, guidelines },
         {
           headers: {
             "Content-Type": "application/json",
