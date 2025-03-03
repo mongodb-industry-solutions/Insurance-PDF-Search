@@ -27,7 +27,7 @@ const InfoWizard = ({
         Tell me more!
       </Button>
 
-      
+
 
       <Modal open={open} setOpen={setOpen} className={styles.modal}>
         <div className={styles.modalContent}>
