@@ -2,16 +2,13 @@
 __pycache__/
 *.py[cod]
 *$py.class
+.cache/
 
 # C extensions
 *.so
 
-# Data
-/artifacts/*
-/pdf-images/*
-
-# Mac
-.DS_Store
+# Config YAML
+config.yaml
 
 # Distribution / packaging
 .Python

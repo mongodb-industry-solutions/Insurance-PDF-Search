@@ -1,14 +1,34 @@
 # Insurance-PDF-Search
 
-## Prerequisites:
+## Where MongoDB Shines?
 
-- **[MongoDB Atlas account](https://www.mongodb.com/products/platform/atlas-database)**: A cloud-based MongoDB account for creating the database and managing data.
+This project leverages [MongoDB Atlas Vector Search](https://www.mongodb.com/products/platform/atlas-vector-search) to efficiently index and search unstructured data, providing fast and relevant retrieval of information. MongoDB Atlas offers robust and scalable database solutions, making it ideal for handling large volumes of data and complex queries.
+
+## High Level Architecture
+
+![High Level Architecture](backend/img/high-level-architecture.png)
+
+## Tech Stack
+
+- Python `>=3.10,<3.11` for the Backend implementation.
+- [MongoDB Atlas Vector Search](https://www.mongodb.com/products/platform/atlas-vector-search) for efficient data indexing and retrieval.
+- AWS [Bedrock](https://aws.amazon.com/bedrock/) models for embeddings and querying.
+- [Cohere English V3](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-embed.html) `cohere.embed-english-v3`  model for embeddings.
+- [Anthropic Claude 3 Haiku](https://docs.aws.amazon.com/bedrock/latest/userguide/bedrock-runtime_example_bedrock-runtime_InvokeModel_AnthropicClaude_section.html) `anthropic.claude-3-haiku-20240307-v1:0`  model for chat completions.
+- Using [Superduper](https://superduper.io/) for simplifying the integration of AI with MongoDB databases.
+
+## Prerequisites
+Before you begin, ensure you have met the following requirements:
+- MongoDB Atlas account, you can create one [here](https://account.mongodb.com/account/register). Free tier is sufficient for this project.
+- Python 3.10 or higher `>=3.10,<3.11` (but less than 3.11).
+- AWS Account with access to mentioned Bedrock models.
+- Poetry (install via [Poetry's official documentation](https://python-poetry.org/docs/#installation)).
 
 ## Setup Instructions
 
 ### Step 0: Set Up MongoDB Database and Collection
 
-1. Log in to [MongoDB Atlas](https://account.mongodb.com/account/login) and create a new database named `insurance_pdf_rag`.
+1. Log in to [MongoDB Atlas](https://account.mongodb.com/account/login) and create a new database named `insurance_pdf_search`. You can use another name if you prefer, but make sure to update the environment variables accordingly. You can use the free tier for this project.
 2. Inside this database, create a collection called `default`.
 
 ### Step 1: Configure the Environment Variables for the backend
@@ -18,22 +38,81 @@
 > **_Note:_** Create a .env file within the backend directory.
 
 ```bash
-MONGODB_URI="mongodb+srv://<REPLACE_USERNAME>:<REPLACE_PASSWORD>@<REPLACE_CLUSTER_NAME>.mongodb.net/<REPLACE_DATABASE_NAME>"
-PDF_PATH="/data/pdfs"
-PDF_IMAGES="/data/pdf-images"
-ARTIFACT_STORE="/data/artifacts"
-OPENAI_ACCESS_KEY=<REPLACE_OPENAI_ACCESS_KEY>
-TITLE="PDF Search in Insurance with MongoDB Vector Search and Superduper"
+MONGODB_URI = "mongodb+srv://<REPLACE_USERNAME>:<REPLACE_PASSWORD>@<REPLACE_CLUSTER_NAME>.mongodb.net/<REPLACE_DATABASE_NAME>"
+ARTIFACT_STORE = "data/your_project/your_demo/artifacts"
+AWS_REGION = "<REPLACE_AWS_REGION>"
+AWS_ACCESS_KEY_ID = "<REPLACE_AWS_ACCESS_KEY>"
+AWS_SECRET_ACCESS_KEY = "<REPLACE_AWS_SECRET_ACCESS_KEY>"
+AWS_S3_ENABLED = False
+AWS_S3_BUCKET = 
+AWS_S3_PDF_FOLDER = 
+PDF_FOLDER = "data/your_project/your_demo/pdfs"
+PDFS = ["personal-banking-terms-conditions.pdf"] # Add the PDFs you want to index, make sure they are in the PDF_FOLDER
+EMBEDDING_MODEL = "cohere.embed-english-v3"
+CHAT_COMPLETION_MODEL = "anthropic.claude-3-haiku-20240307-v1:0"
 ORIGINS=http://localhost:3000
 ```
 
-### Create folder structure
+### Step 2: Configure AWS Account
 
-1. Create `/artifacts` and `/pdf-images` folders within `backend/data/`
+1. Create an AWS account if you don't have one.
+2. Add the AWS Access Key ID and Secret Access Key to the environment variables in the `.env` file.
+3. Grant the necessary permissions to the AWS account: `AmazonBedrockFullAccess`, but in case you enable S3, you will need to add `AmazonS3FullAccess` and `SecretsManagerReadWrite` permissions. There are some varibles in the `.env` file that you can use to enable or disable the S3 integration.
 
-> **_Note:_** Notice that this is the same folders where the `/pdfs` are. You will end up having 3 folders inside `backend/data/`.
+## Run it Locally
 
-### Step 2. Configure the Environment Variables for the frontend
+### Backend
+
+1. (Optional) Set your project description and author information in the `pyproject.toml` file:
+   ```toml
+   description = "Your Description"
+   authors = ["Your Name <you@example.com>"]
+2. Open the project in your preferred IDE (the standard for the team is Visual Studio Code).
+3. Open the Terminal within Visual Studio Code.
+4. Ensure you are in the root project directory where the `makefile` is located.
+5. Execute the following commands:
+  - Poetry start
+    ````bash
+    make poetry_start
+    ````
+  - Poetry install
+    ````bash
+    make poetry_install
+    ````
+6. Verify that the `.venv` folder has been generated within the `/backend` directory.
+7. Make sure to select the Python interpreter from the `.venv` folder. You can change this in Visual Studio Code by clicking on the Python version in the bottom left corner, or searching by `Python: Select Interpreter` in the command palette. For this project, the Python interpreter should be located at `./backend/.venv/bin/python`.
+
+### Interact with the API
+
+Start the server by running the following commands:
+   1. Make sure to be over `/backend` directory. 
+        ```bash
+         cd backend
+         ```
+   3. Start the backend server with the following command:
+        ```bash
+        poetry run uvicorn main:app --host 0.0.0.0 --port 8000
+        ```
+
+**_Note:_** The server will be running on `http://localhost:8000`.
+
+
+Ensure that you leave the following folders empty: `data/insurance/pdf_search/artifacts` and `data/insurance/pdf_search/pdf-images`. Delete any existing folders and files in these folders.
+
+- Use the following endpoints to interact with the API:
+
+   1. `POST /cleandb`: Make a request to clean the database. 
+      -  Body: `{ "industry": "insurance", "demo_name": "pdf_search" }`.
+   2. `POST /setuprag`: Make a request to set up the RAG model.
+      -  Body: `{ "industry": "insurance", "demo_name": "pdf_search" }`.
+   3. `POST /querythepdf`: Once the RAG model is set up, make a request to query the PDFs.
+      -  Body: `{ "industry": "insurance", "demo_name": "pdf_search", "guidelines": "guidlines_risk_management_singapore.pdf", "query": "What are risk control measures associated with claim handling and case reserving?" }`.
+
+**_Note:_** Above requests are made to the local server, so make sure the server is running. Make sure to execute the requests in the order mentioned above. Once the RAG model is set up, you can query the PDFs multiple times.
+
+### To connect with Frontend
+
+### Configure the Environment Variables for the frontend
 
 1. In the `frontend` folder, create a `.env.local` file.
 2. Add the URL for the API using the following format:
@@ -42,20 +121,7 @@ ORIGINS=http://localhost:3000
 NEXT_PUBLIC_ASK_THE_PDF_API_URL="http://localhost:8000/querythepdf"
 ```
 
-### Step 3: Run the backend
-
-1. Navigate to the `backend` folder.
-2. Install dependencies using [Poetry](https://python-poetry.org/) by running:
-```bash
-poetry install
-```
-3. Start the backend server with the following command:
-```bash
-poetry run uvicorn main:app --host 0.0.0.0 --port 8000
-```
-The backend will now be accessible at http://localhost:8000, ready to handle API requests for image vector search.
-
-### Step 4 Run the frontend
+### Run the Frontend
 1. Navigate to the `frontend` folder.
 2. Install dependencies by running:
 ```bash
@@ -68,92 +134,29 @@ npm run dev
 
 The frontend will now be accessible at http://localhost:3000 by default, providing a user interface to interact with the image vector search demo.
 
-## Docker Setup Instructions
+## Run with Docker (Preferred)
+
+Prerequisites:
+- Docker Desktop installed on your machine.
+- Docker Desktop running on your machine.
+
+### Docker Setup Instructions
 
 To run the application using Docker, follow these setup steps:
 
 ### Build the Application
 > **_NOTE:_** If you don’t have make installed, you can install it using `sudo apt install make` or `brew install make`
 
-To build the Docker images and start the services, run the following command:
-```bash
+1. To run with Docker use the following command:
+```
 make build
 ```
-
-> **_NOTE:_** Depending on the version of Docker Compose you have installed, you might need to modify the Makefile to use docker-compose (with a hyphen) instead of docker compose (without a hyphen), as the command format can vary between versions.
-
-### Stopping the Application
-
-To stop all running services, use the command:
-```bash
-make stop
+2. To delete the container and image run:
 ```
-
-### Cleaning Up
-
-To remove all images and containers associated with the application, execute:
-```bash
 make clean
 ```
 
-## **Deploy on AWS EC2 Instance**
+## Common errors
 
-In this guide, we'll deploy a **t2.micro** instance running **Ubuntu Server 24.04 LTS** with approximately **20 GB** of storage.
+- Check that you've created an `.env` file that contains your valid (and working) API keys, environment and index variables.
 
-### **Step 1: Create the EC2 Instance**
-- Launch a t2.micro EC2 instance with Ubuntu Server 24.04 LTS from the AWS Console.
-
-> **_NOTE:_** Ensure that you open port 3000 for the frontend and port 8000 for the backend in your security group settings. Additionally, allow outbound traffic to port 27017, which is the default port for MongoDB.
-
-### **Step 2: SSH into the Instance**
-Once the instance is up and running, SSH into the machine using the following command:
-
-```bash
-ssh ubuntu@<your-ec2-ip-address>
-```
-
-### **Step 3: Update the Package Index**
-Before installing any packages, it's good practice to update the package index:
-
-```
-sudo apt update
-```
-
-### **Step 4: Install Docker**
-Install Docker on your EC2 instance by running the following command:
-
-```
-sudo apt install docker.io -y
-```
-
-Verify the installation by checking the Docker version:
-```
-docker --version
-```
-
-### **Step 5: Install Docker Compose**
-Download Docker Compose:
-```
-sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-```
-
-Make Docker Compose executable:
-```
-sudo chmod +x /usr/local/bin/docker-compose
-```
-
-Check the Docker Compose version:
-```
-docker-compose --version
-```
-
-### **Step 6: Start and Enable Docker Service**
-Start the Docker service:
-```
-sudo systemctl start docker
-```
-
-Enable Docker to start on boot:
-```
-sudo systemctl enable docker
-```
