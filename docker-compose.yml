@@ -1,0 +1,19 @@
+services:
+  query-the-pdf-frontend:
+    build:
+      context: ./
+      dockerfile: Dockerfile.frontend
+    image: query-the-pdf-frontend-image:latest
+    ports:
+      - "3000:3000"
+    restart: always
+    container_name: query-the-pdf-frontend-container
+  query-the-pdf-backend:
+    build:
+      context: ./
+      dockerfile: Dockerfile.backend
+    image: query-the-pdf-backend-image:latest
+    ports:
+      - "8000:8000"
+    restart: always
+    container_name: query-the-pdf-backend-container

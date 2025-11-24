@@ -1,0 +1,241 @@
+.content {
+    display: flex;
+    height: 100%;
+    /* Ensures the content fills the height of the parent container */
+    margin-top: 220px;
+    position: fixed;
+    overflow-y: scroll;
+    /* Enable vertical scrolling */
+
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    margin-top: 150px;
+    overflow-y: auto;
+
+}
+
+.chat {
+ 
+    flex: 1;
+    border-right: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.selectText{
+    font-size: 14px;
+    }
+
+.customerContent {
+    display: flex;
+    align-items: center;
+}
+
+.customerImage {
+    width: 50px;
+    /* Adjust as needed */
+    height: 50px;
+    /* Adjust as needed */
+    margin-right: 10px;
+    /* Adjust as needed */
+}
+
+
+.customerBtn{
+    margin-right: 20px;
+    padding-right: 10px;
+    border: 1px solid #C1C7C6;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.06);
+}
+
+.customerBtn:hover{
+    background-color: #00A35C;
+    color: white;
+}
+
+
+.input {
+    border: 1px solid #C1C7C6;
+    border-radius: 50px;
+    width: 70%;
+    padding: 5px;
+    margin-right: 20px;
+    font-size: 17px;
+}
+
+.askBtn {
+    border: 1px solid #C1C7C6;
+    border-radius: 50px;
+    background-color: white;
+    color: #00A35C;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-weight: 900;
+    font-size: 17px;
+    box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.06);
+}
+
+.askBtn:hover {
+    background-color: #00A35C;
+    color: white;
+}
+
+.suggestion {
+    border: 1px solid #C1C7C6;
+    border-radius: 50px;
+    background-color: white;
+    color: #00A35C;
+    font-weight: 600;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.06);
+    font-size: 17px;
+    padding: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.suggestion:hover{
+    background-color: #e2eae7;
+   
+}
+
+.suggestedQuestions p {
+    font-size: 17px;
+    color: #889397;
+    margin-bottom: 0px;
+    margin-top: 30px;
+}
+
+
+
+.answer {
+    font-size: 17px;
+    background-color: #edf0ef;
+    padding: 20px;
+    border-radius: 20px;
+    margin-top: 30px;
+}
+
+/*Rerefences Styles*/
+
+.references {
+    flex: 1;
+    padding-left: 20px;
+    margin-right: 50px;
+    text-align: center;
+}
+
+.customerInfo{
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.20);
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    width: max-content;
+    margin-left: 20%;
+   
+}
+
+
+.imgSection {
+    margin-left: 0px;
+  
+}
+
+.imgSection img {
+    margin: 0px;
+    padding: 0px;
+    width: 700px;
+    height: auto;
+    /* Fixed height */
+}
+
+.customerPhoto{
+    width: 50px;
+    margin-right: 10px;
+}
+
+
+.contentSection {
+    flex-grow: 1;
+    /* Allow the contentSection to grow and take up remaining space */
+    padding-left: 20px;
+    /* Add padding for spacing between image and content */
+}
+
+.upperSection {
+    display: flex;
+    flex-wrap: wrap;
+    /* Allow items to wrap to the next line if necessary */
+    width: 100%;
+}
+
+.fieldWrapper {
+    display: flex;
+    flex-direction: column;
+    margin-right: 30px;
+    /* Adjust spacing between each field */
+}
+
+.fieldWrapper p {
+    margin: 0;
+    /* Reset margin for inner p elements */
+    text-align: left;
+    margin-top: 5px;
+}
+
+.lowerSection {
+    margin-top: 30px;
+    /* Adjust spacing between upper and lower sections */
+    text-align: left;
+}
+
+.lossAmount {
+    color: #016BF8;
+    font-weight: 600;
+    background-color: #E1F7FF;
+    width: fit-content;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-radius: 50px;
+    font-size: 16px;
+}
+
+.fieldTitle {
+    color: #889397;
+    font-weight: 700;
+    /* Make the font thicker */
+    font-size: 13px;
+}
+
+.fieldContent {
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+.spinner {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid #009b15;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
