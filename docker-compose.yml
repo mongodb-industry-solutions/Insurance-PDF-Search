@@ -8,12 +8,6 @@ services:
       - "3000:3000"
     restart: always
     container_name: query-the-pdf-frontend-container
-  query-the-pdf-backend:
-    build:
-      context: ./
-      dockerfile: Dockerfile.backend
-    image: query-the-pdf-backend-image:latest
-    ports:
-      - "8000:8000"
-    restart: always
-    container_name: query-the-pdf-backend-container
+    environment:
+      - NEXT_PUBLIC_ASK_THE_PDF_API_URL=https://cross-be-pdf-rag.industrysolutions.staging.corp.mongodb.com
+    

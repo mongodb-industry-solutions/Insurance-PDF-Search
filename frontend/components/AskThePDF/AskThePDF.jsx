@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import styles from "./askThePDF.module.css";
-import axios from "axios";
 
 const AskThePDF = () => {
   const industry = "insurance";
@@ -57,25 +56,27 @@ const AskThePDF = () => {
     console.log("Demo name:", demo_name);
     console.log("Asking Your PDF:", query);
     console.log("Using the file:", guidelines);
-
-    const apiUrl = process.env.NEXT_PUBLIC_ASK_THE_PDF_API_URL;
-
     try {
-      const response = await axios.post(
-        apiUrl,
-        { industry, demo_name, query, guidelines },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch("/api/querythepdf", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ industry, demo_name, query, guidelines }),
+      });
 
-      console.log("Answer:", response.data);
-      setAnswer(response.data.answer);
-      setDocs(response.data.supporting_docs);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Answer:", data);
+      setAnswer(data.answer);
+      setDocs(data.supporting_docs);
     } catch (error) {
       console.error("Error:", error);
+      setAnswer("Sorry, there was an error processing your request. Please try again.");
+      setDocs([]);
     } finally {
       setLoading(false); // Reset loading state
     }
