@@ -118,7 +118,7 @@ Ensure that you leave the following folders empty: `data/insurance/pdf_search/ar
 2. Add the URL for the API using the following format:
 
 ```bash
-NEXT_PUBLIC_ASK_THE_PDF_API_URL="http://localhost:8000/querythepdf"
+NEXT_PUBLIC_ASK_THE_PDF_API_URL="http://localhost:8000/querythepdf" // This will now be used from a different backend. This implementation is only front-end.
 ```
 
 ### Run the Frontend
