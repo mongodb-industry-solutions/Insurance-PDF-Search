@@ -1,0 +1,7 @@
+env:
+  NODE_ENV: staging
+  NEXT_PUBLIC_ASK_THE_PDF_API_URL: "https://cross-be-pdf-rag.industrysolutions.staging.corp.mongodb.com"
+
+# No service account needed for frontend
+serviceAccount:
+  enabled: false
