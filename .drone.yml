@@ -1,0 +1,114 @@
+---
+kind: pipeline
+type: kubernetes
+name: staging
+trigger:
+  branch:
+    - staging
+
+steps:
+  - name: publish-frontend
+    image: plugins/kaniko-ecr
+    settings:
+      create_repository: true
+      registry: 795250896452.dkr.ecr.us-east-1.amazonaws.com
+      repo: industrysolutions/insurance-pdf-search-frontend
+      tags:
+        - git-${DRONE_COMMIT_SHA:0:7}
+        - latest
+      dockerfile: dockerfile.frontend
+      build_args:
+        - NEXT_PUBLIC_ASK_THE_PDF_API_URL=https://cross-be-pdf-rag.industrysolutions.staging.corp.mongodb.com
+        - NODE_ENV=staging
+      access_key:
+        from_secret: ecr_access_key
+      secret_key:
+        from_secret: ecr_secret_key
+    when:
+      event:
+        - push
+
+  - name: deploy-frontend-staging
+    image: public.ecr.aws/kanopy/drone-helm:v3
+    settings:
+      chart: mongodb/web-app
+      chart_version: 4.25.0
+      add_repos: [mongodb=https://10gen.github.io/helm-charts]
+      namespace: industrysolutions
+      release: insurance-pdf-search-frontend
+      values:
+        - "image.tag=git-${DRONE_COMMIT_SHA:0:7}"
+        - "image.repository=795250896452.dkr.ecr.us-east-1.amazonaws.com/industrysolutions/insurance-pdf-search-frontend"
+        - "ingress.enabled=true"
+        - "ingress.hosts[0]=insurance-pdf-search-frontend.industrysolutions.staging.corp.mongodb.com"
+        - "mesh.enabled=true"
+        - "env.NEXT_PUBLIC_ASK_THE_PDF_API_URL=https://cross-be-pdf-rag.industrysolutions.staging.corp.mongodb.com
+        - "serviceAccount.enabled=false"
+        - "resources.limits.cpu=1000m"
+        - "resources.limits.memory=1024Mi"
+        - "resources.requests.cpu=250m"
+        - "resources.requests.memory=256Mi"
+      api_server: https://api.staging.corp.mongodb.com
+      kubernetes_token:
+        from_secret: staging_kubernetes_token
+      values_files: [ "environment/staging-frontend.yaml" ]
+    when:
+      event:
+        - push
+---
+kind: pipeline
+type: kubernetes
+name: production
+trigger:
+  branch:
+    - main
+
+steps:
+  - name: publish-frontend
+    image: plugins/kaniko-ecr
+    settings:
+      create_repository: true
+      registry: 795250896452.dkr.ecr.us-east-1.amazonaws.com
+      repo: industrysolutions/insurance-pdf-search-frontend
+      tags:
+        - git-${DRONE_COMMIT_SHA:0:7}
+        - latest
+      dockerfile: dockerfile.frontend
+      build_args:
+        - NEXT_PUBLIC_ASK_THE_PDF_API_URL=https://cross-be-pdf-rag.industrysolutions.prod.corp.mongodb.com
+        - NODE_ENV=production
+      access_key:
+        from_secret: ecr_access_key
+      secret_key:
+        from_secret: ecr_secret_key
+    when:
+      event:
+        - push
+
+  - name: deploy-frontend-prod
+    image: public.ecr.aws/kanopy/drone-helm:v3
+    settings:
+      chart: mongodb/web-app
+      chart_version: 4.25.0
+      add_repos: [mongodb=https://10gen.github.io/helm-charts]
+      namespace: industrysolutions
+      release: insurance-pdf-search-frontend
+      values:
+        - "image.tag=git-${DRONE_COMMIT_SHA:0:7}"
+        - "image.repository=795250896452.dkr.ecr.us-east-1.amazonaws.com/industrysolutions/insurance-pdf-search-frontend"
+        - "ingress.enabled=true"
+        - "ingress.hosts[0]=insurance-pdf-search-frontend.industrysolutions.prod.corp.mongodb.com"
+        - "mesh.enabled=true"
+        - "env.NEXT_PUBLIC_ASK_THE_PDF_API_URL=https://cross-be-pdf-rag.industrysolutions.prod.corp.mongodb.com
+        - "serviceAccount.enabled=false"
+        - "resources.limits.cpu=1000m"
+        - "resources.limits.memory=1024Mi"
+        - "resources.requests.cpu=250m"
+        - "resources.requests.memory=256Mi"
+      api_server: https://api.prod.corp.mongodb.com
+      kubernetes_token:
+        from_secret: prod_kubernetes_token
+      values_files: [ "environment/prod-frontend.yaml" ]
+    when:
+      event:
+        - push

@@ -1,4 +1,4 @@
-# Insurance-PDF-Search
+# insurance-pdf-search-
 
 ## Where MongoDB Shines?
 
