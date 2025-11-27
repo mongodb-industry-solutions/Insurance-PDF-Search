@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile.frontend
     image: query-the-pdf-frontend-image:latest
     ports:
-      - "3000:3000"
+      - "8080:8080"
     restart: always
     container_name: query-the-pdf-frontend-container
     environment:
