@@ -42,7 +42,7 @@ steps:
         - "ingress.enabled=true"
         - "ingress.hosts[0]=insurance-pdf-search-frontend.industrysolutions.staging.corp.mongodb.com"
         - "mesh.enabled=true"
-        - "env.NEXT_PUBLIC_ASK_THE_PDF_API_URL=https://cross-be-pdf-rag.industrysolutions.staging.corp.mongodb.com
+        - "env.NEXT_PUBLIC_ASK_THE_PDF_API_URL=https://cross-be-pdf-rag.industrysolutions.staging.corp.mongodb.com"
         - "serviceAccount.enabled=false"
         - "resources.limits.cpu=1000m"
         - "resources.limits.memory=1024Mi"
@@ -99,7 +99,7 @@ steps:
         - "ingress.enabled=true"
         - "ingress.hosts[0]=insurance-pdf-search-frontend.industrysolutions.prod.corp.mongodb.com"
         - "mesh.enabled=true"
-        - "env.NEXT_PUBLIC_ASK_THE_PDF_API_URL=https://cross-be-pdf-rag.industrysolutions.prod.corp.mongodb.com
+        - "env.NEXT_PUBLIC_ASK_THE_PDF_API_URL=https://cross-be-pdf-rag.industrysolutions.prod.corp.mongodb.com"
         - "serviceAccount.enabled=false"
         - "resources.limits.cpu=1000m"
         - "resources.limits.memory=1024Mi"
