@@ -1,7 +1,8 @@
 env:
   NODE_ENV: staging
   NEXT_PUBLIC_ASK_THE_PDF_API_URL: "https://cross-be-pdf-rag.industrysolutions.staging.corp.mongodb.com"
-
+envSecrets:
+  NEXT_PUBLIC_ASK_THE_PDF_API_COOKIE: insurance-pdf-search-secrets
 # No service account needed for frontend
 serviceAccount:
   enabled: false
