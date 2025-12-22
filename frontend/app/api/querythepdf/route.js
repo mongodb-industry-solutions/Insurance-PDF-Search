@@ -14,7 +14,7 @@ export async function POST(request) {
   try {
     const response = await fetch(`${backendUrl}/querythepdf`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Cookie': process.env.NEXT_PUBLIC_ASK_THE_PDF_API_COOKIE || '' },
+      headers: { 'Content-Type': 'application/json' || '' },
       body: JSON.stringify(body),
     });
 
