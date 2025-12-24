@@ -1,6 +1,7 @@
 env:
   NODE_ENV: staging
-  NEXT_PUBLIC_ASK_THE_PDF_API_URL: "http://cross-be-pdf-rag-web-app:80"
+  NEXT_PUBLIC_ASK_THE_PDF_API_URL: "https://cross-be-pdf-rag.industrysolutions.staging.corp.mongodb.com"
+  INTERNAL_CROSS_BE_PDF_RAG_URL: "http://cross-be-pdf-rag-web-app:80"
 envSecrets:
   NEXT_PUBLIC_ASK_THE_PDF_API_COOKIE: insurance-pdf-secrets
 # No service account needed for frontend
