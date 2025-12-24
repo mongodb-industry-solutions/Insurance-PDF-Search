@@ -2,11 +2,11 @@ export async function POST(request) {
   const body = await request.json();
   
   // Use the environment variable for the backend URL
-  const backendUrl = process.env.NEXT_PUBLIC_ASK_THE_PDF_API_URL;
-
+  const backendUrl = process.env.INTERNAL_CROSS_BE_PDF_RAG_URL || 
+                       process.env.NEXT_PUBLIC_ASK_THE_PDF_API_URL;
   if (!backendUrl) {
     return Response.json(
-      { error: 'Backend URL not configured', details: 'NEXT_PUBLIC_ASK_THE_PDF_API_URL environment variable is missing' },
+      { error: 'Backend URL not configured', details: ' environment variable is missing' },
       { status: 500 }
     );
   }
@@ -14,7 +14,7 @@ export async function POST(request) {
   try {
     const response = await fetch(`${backendUrl}/querythepdf`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Cookie': process.env.NEXT_PUBLIC_ASK_THE_PDF_API_COOKIE || '' },
+      headers: { 'Content-Type': 'application/json' || '' },
       body: JSON.stringify(body),
     });
 
